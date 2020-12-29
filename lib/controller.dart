@@ -9,6 +9,6 @@ class Controller extends GetxController{
   addToList(String item) {
 
     print("adding: " + item);
-    testList = [...testList, item];
+    testList.add(item);
   }
 }

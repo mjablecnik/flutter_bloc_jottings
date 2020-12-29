@@ -39,7 +39,7 @@ class Other extends GetView<Controller> {
     // Access the updated count variable
     return Scaffold(
       appBar: AppBar(),
-      body: ListView.builder(
+      body: Obx(() => ListView.builder(
         padding: const EdgeInsets.all(8),
         itemCount: controller.testList.length,
         itemBuilder: (context, index) {
@@ -51,7 +51,7 @@ class Other extends GetView<Controller> {
             ),
           );
         },
-      ),
+      )),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () => controller.addToList("next item"),
