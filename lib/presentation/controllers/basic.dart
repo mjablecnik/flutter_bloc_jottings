@@ -6,7 +6,7 @@ class BasicController extends GetxController {
 
   increment() => count++;
 
-  addToList(String item) {
+  addItem(String item, type) {
     simpleList.add(item);
   }
 }

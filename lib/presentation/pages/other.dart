@@ -27,19 +27,7 @@ class Other extends GetView<BasicController> {
           )),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () => {
-          Get.defaultDialog(
-            onConfirm: dialogController.dialogInputConfirm,
-            onCancel: dialogController.clearDialog,
-            middleText: "Dialog made in 3 lines of code",
-            textCancel: "Cancel",
-            textConfirm: "Confirm",
-            content: TextField(
-              controller: dialogController.dialogInput,
-              onSubmitted: (_) => dialogController.dialogInputConfirm(),
-            ),
-          ),
-        },
+        onPressed: dialogController.open,
       ),
     );
   }

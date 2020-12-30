@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:getx_example/constants.dart';
 import 'package:getx_example/presentation/controllers/basic.dart';
 
 
@@ -18,9 +19,17 @@ class Home extends GetView<BasicController> {
 
       // Replace the 8 lines Navigator.push by a simple Get.to(). You don't need context
       body: Center(
-        child: RaisedButton(
-          child: Text("Go to Other"),
-          onPressed: () => Get.toNamed('/other'),
+        child: Column(
+          children: [
+            RaisedButton(
+              child: Text("Go to Other"),
+              onPressed: () => Get.toNamed(Routes.OTHER),
+            ),
+            RaisedButton(
+              child: Text("Go to Jottings"),
+              onPressed: () => Get.toNamed(Routes.JOTTINGS),
+            ),
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
