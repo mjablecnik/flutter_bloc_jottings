@@ -9,25 +9,25 @@ import 'package:getx_example/pages/jottings.dart';
 
 class JottingsController extends GetxController {
 
-  List<Item> simpleList = <Item>[Note.create("testItem1"), Note.create("testItem2")].obs;
-  Folder currentFolder;
+  List<Item> items = <Item>[Note.create("testItem1"), Note.create("testItem2")].obs;
+  Folder _currentFolder;
 
 
   onInit() {
     super.onInit();
-    currentFolder = Get.arguments;
+    _currentFolder = Get.arguments;
     load();
   }
 
   addItem(String name, ItemType type) async {
-    var item = Item.create(name, path: currentFolder.path, type: type);
-    simpleList.add(item);
-    currentFolder.items.add(item);
-    currentFolder.save();
+    var item = Item.create(name, path: _currentFolder.path, type: type);
+    this.items.add(item);
+    _currentFolder.items.add(item);
+    _currentFolder.save();
   }
 
   removeItem(int index) {
-    simpleList.removeAt(index);
+    this.items.removeAt(index);
   }
 
   editItem() {
@@ -35,14 +35,14 @@ class JottingsController extends GetxController {
   }
 
   load() {
-    if (currentFolder != null) return;
+    if (_currentFolder != null) return;
 
-    currentFolder = Folder.load(rootFolderName, <Folder>[]);
+    _currentFolder = Folder.load(rootFolderName, <Folder>[]);
 
-    if (currentFolder != null) {
-      simpleList.addAll(currentFolder.items);
+    if (_currentFolder != null) {
+      this.items.addAll(_currentFolder.items);
     } else {
-      currentFolder = Folder.create(rootFolderName, path: <Folder>[]);
+      _currentFolder = Folder.create(rootFolderName, path: <Folder>[]);
     }
   }
 

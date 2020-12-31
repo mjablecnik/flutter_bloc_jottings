@@ -15,16 +15,16 @@ class JottingsPage extends GetWidget<JottingsController> {
       body: Obx(
         () => ListView.builder(
           padding: const EdgeInsets.all(10),
-          itemCount: controller.simpleList.length,
+          itemCount: controller.items.length,
           itemBuilder: (context, index) {
             return GestureDetector(
-              onTap: () => controller.goNext(controller.simpleList[index]),
+              onTap: () => controller.goNext(controller.items[index]),
               child: Container(
                 height: 50,
                 margin: const EdgeInsets.all(5),
-                color: controller.getItemColor(controller.simpleList[index].runtimeType),
+                color: controller.getItemColor(controller.items[index].runtimeType),
                 child: Center(
-                  child: Text(controller.simpleList[index].name),
+                  child: Text(controller.items[index].name),
                 ),
               ),
             );
@@ -39,10 +39,6 @@ class JottingsPage extends GetWidget<JottingsController> {
           RaisedButton(onPressed: () => dialogController.open(ItemType.todo), child: Text("Add todo")),
           RaisedButton(onPressed: () => dialogController.open(ItemType.folder), child: Text("Add folder")),
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: dialogController.open,
       ),
     );
   }

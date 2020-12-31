@@ -32,7 +32,7 @@ Future<void> main() async {
   runApp(
     GetMaterialApp(
       smartManagement: SmartManagement.full,
-      initialRoute: Routes.HOME,
+      initialRoute: Routes.JOTTINGS,
       initialBinding: BindingsBuilder(() {
         Get.lazyPut(() => BasicController(), fenix: true);
         Get.create(() => DialogController());
