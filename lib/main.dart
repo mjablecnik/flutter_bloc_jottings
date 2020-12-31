@@ -5,6 +5,7 @@ import 'package:getx_example/constants.dart';
 import 'package:getx_example/controllers/basic.dart';
 import 'package:getx_example/controllers/dialog.dart';
 import 'package:getx_example/controllers/jottings.dart';
+import 'package:getx_example/models/todo.dart';
 import 'package:getx_example/pages/home.dart';
 import 'package:getx_example/pages/jottings.dart';
 import 'package:getx_example/pages/other.dart';
@@ -20,9 +21,12 @@ Future<void> main() async {
   Hive
     ..init(directory.path)
     ..registerAdapter(NoteAdapter())
+    ..registerAdapter(TodoListAdapter())
+    ..registerAdapter(TodoItemAdapter())
     ..registerAdapter(FolderAdapter());
 
   await Hive.openBox<Note>(ItemType.note.toString());
+  await Hive.openBox<TodoList>(ItemType.todo.toString());
   await Hive.openBox<Folder>(ItemType.folder.toString());
 
   runApp(

@@ -8,6 +8,7 @@ part 'note.g.dart';
 
 @HiveType(typeId: 2)
 class Note extends Item {
+
   @HiveField(50)
   String content = "";
 

@@ -7,6 +7,7 @@ part 'folder.g.dart';
 
 @HiveType(typeId: 1)
 class Folder extends Item {
+
   @HiveField(50)
   List<Item> items = List<Item>();
 

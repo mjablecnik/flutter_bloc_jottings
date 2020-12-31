@@ -17,21 +17,10 @@ class JottingsController extends GetxController {
   }
 
   addItem(String name, ItemType type) async {
-    var item;
-    switch (type) {
-      case ItemType.note:
-        item = Note.create(name, path: currentFolder.path);
-        currentFolder.items.add(item);
-        currentFolder.save();
-        break;
-      case ItemType.todo:
-        item = TodoList(name);
-        break;
-      case ItemType.folder:
-        item = Folder(name);
-        break;
-    }
+    var item = Item.create(name, path: currentFolder.path, type: type);
     simpleList.add(item);
+    currentFolder.items.add(item);
+    currentFolder.save();
   }
 
   removeItem(int index) {

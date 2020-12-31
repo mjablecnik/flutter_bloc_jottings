@@ -1,4 +1,6 @@
 
+import 'package:getx_example/models/note.dart';
+import 'package:getx_example/models/todo.dart';
 import 'package:hive/hive.dart';
 import 'package:getx_example/constants.dart';
 
@@ -32,5 +34,22 @@ class Item extends HiveObject {
 
   static String getKey(String name, List<Folder> path) {
     return getKeyByItem(Item(name, path: path));
+  }
+
+  factory Item.create(name, { List<Folder> path, ItemType type }) {
+    switch (type) {
+      case ItemType.note:
+        return Note.create(name, path: path);
+        break;
+      case ItemType.todo:
+        return TodoList.create(name, path: path);
+        break;
+      case ItemType.folder:
+        return Folder.create(name, path: path);
+        break;
+      default:
+        return null;
+        break;
+    }
   }
 }
