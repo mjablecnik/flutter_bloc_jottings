@@ -16,9 +16,13 @@ class Note extends Item {
       : super(name, path: path, created: created, lastChange: lastChange);
 
   factory Note.create(name, { List<Folder> path }) {
-    var box = Hive.box<Note>(ItemType.note.toString());
     var note = Note(name, path: path);
-    box.put(Item.getKey(name, path), note);
+    note.save();
     return note;
+  }
+
+  save() {
+    var box = Hive.box<Note>(ItemType.note.toString());
+    return box.put(Item.getKey(name, path), this);
   }
 }

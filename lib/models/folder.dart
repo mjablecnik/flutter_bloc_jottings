@@ -16,10 +16,14 @@ class Folder extends Item {
 
 
   factory Folder.create(name, { List<Folder> path }) {
-    var box = Hive.box<Folder>(ItemType.folder.toString());
     var item = Folder(name, path: path);
-    box.put(Item.getKeyByItem(item), item);
+    item.save();
     return item;
+  }
+
+  save() {
+    var box = Hive.box<Folder>(ItemType.folder.toString());
+    return box.put(Item.getKey(name, path), this);
   }
 
   static Folder load(String name, List<Folder> path) {

@@ -8,17 +8,13 @@ import 'basic.dart';
 
 class DialogController extends GetxController {
 
-  var _controller;
+  JottingsController _controller;
   TextEditingController dialogInput;
 
   onInit() {
     super.onInit();
 
-    if (Get.currentRoute == Routes.JOTTINGS) {
-      _controller = Get.find<JottingsController>();
-    } else {
-      _controller = Get.find<BasicController>();
-    }
+    _controller = Get.find<JottingsController>();
     dialogInput = TextEditingController();
     print("Create dialogController");
   }

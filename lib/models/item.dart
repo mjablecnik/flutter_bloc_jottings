@@ -7,7 +7,7 @@ import 'package:getx_example/constants.dart';
 import 'folder.dart';
 
 
-class Item extends HiveObject {
+class Item {
 
   @HiveField(0)
   String name;

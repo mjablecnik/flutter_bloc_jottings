@@ -16,10 +16,14 @@ class TodoList extends Item {
       : super(name, path: path, created: created, lastChange: lastChange);
 
   factory TodoList.create(name, { List<Folder> path }) {
-    var box = Hive.box<TodoList>(ItemType.todo.toString());
     var note = TodoList(name, path: path);
-    box.put(Item.getKey(name, path), note);
+    note.save();
     return note;
+  }
+
+  save() {
+    var box = Hive.box<TodoList>(ItemType.todo.toString());
+    return box.put(Item.getKey(name, path), this);
   }
 }
 
