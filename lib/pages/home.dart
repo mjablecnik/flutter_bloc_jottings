@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:getx_example/constants.dart';
-import 'package:getx_example/presentation/controllers/basic.dart';
+import 'package:getx_example/controllers/basic.dart';
 
 
 class Home extends GetView<BasicController> {

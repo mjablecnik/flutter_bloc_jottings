@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:getx_example/constants.dart';
-import 'package:getx_example/presentation/controllers/jottings.dart';
 
+import 'jottings.dart';
 import 'basic.dart';
 
 class DialogController extends GetxController {

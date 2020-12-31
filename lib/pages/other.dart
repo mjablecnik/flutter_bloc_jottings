@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:getx_example/presentation/controllers/basic.dart';
-import 'package:getx_example/presentation/controllers/dialog.dart';
+import 'package:getx_example/controllers/basic.dart';
+import 'package:getx_example/controllers/dialog.dart';
 
 class Other extends GetView<BasicController> {
   @override

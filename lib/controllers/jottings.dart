@@ -1,36 +1,25 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_example/constants.dart';
-import 'package:getx_example/domain/entities/folder.dart';
-import 'package:getx_example/domain/entities/item.dart';
-import 'package:getx_example/domain/entities/note.dart';
-import 'package:getx_example/domain/entities/todo.dart';
-import 'package:getx_example/domain/services/jotting.dart';
+import 'package:getx_example/models/folder.dart';
+import 'package:getx_example/models/item.dart';
+import 'package:getx_example/models/note.dart';
+import 'package:getx_example/models/todo.dart';
 
 class JottingsController extends GetxController {
   List<Item> simpleList = <Item>[].obs;
-
-  JottingService _jottingService;
-
-  @override
-  void onInit() {
-    super.onInit();
-    _jottingService = Get.find<JottingService>();
-  }
 
   addItem(String name, ItemType type) async {
     var item;
     switch(type) {
       case ItemType.note:
-        item = await _jottingService.create(Note(name));
+        item = Note(name);
         break;
       case ItemType.todo:
-        item = await _jottingService.create(TodoList(name));
+        item = TodoList(name);
         break;
       case ItemType.folder:
-        item = await _jottingService.create(Folder(name));
+        item = Folder(name);
         break;
     }
     simpleList.add(item);
@@ -41,6 +30,10 @@ class JottingsController extends GetxController {
   }
 
   editItem() {
+
+  }
+
+  list() {
 
   }
 
