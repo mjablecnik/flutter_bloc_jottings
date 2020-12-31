@@ -12,10 +12,10 @@ class Note extends Item {
   @HiveField(50)
   String content = "";
 
-  Note(name, {List<Folder> path, DateTime created, DateTime lastChange})
+  Note(name, {List<String> path, DateTime created, DateTime lastChange})
       : super(name, path: path, created: created, lastChange: lastChange);
 
-  factory Note.create(name, { List<Folder> path }) {
+  factory Note.create(name, { List<String> path }) {
     var note = Note(name, path: path);
     note.save();
     return note;

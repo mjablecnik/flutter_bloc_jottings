@@ -11,11 +11,11 @@ class Folder extends Item {
   @HiveField(50)
   List<Item> items = List<Item>();
 
-  Folder(name, {List<Folder> path, DateTime created, DateTime lastChange})
+  Folder(name, {List<String> path, DateTime created, DateTime lastChange})
       : super(name, path: path, created: created, lastChange: lastChange);
 
 
-  factory Folder.create(name, { List<Folder> path }) {
+  factory Folder.create(name, { List<String> path }) {
     var item = Folder(name, path: path);
     item.save();
     return item;
@@ -23,11 +23,13 @@ class Folder extends Item {
 
   save() {
     var box = Hive.box<Folder>(ItemType.folder.toString());
-    return box.put(Item.getKey(name, path), this);
+    var key = Item.getKey(name, path);
+    box.put(key, this);
   }
 
-  static Folder load(String name, List<Folder> path) {
+  static Folder load(String name, List<String> path) {
     var box = Hive.box<Folder>(ItemType.folder.toString());
-    return box.get(Item.getKey(name, path));
+    var key = Item.getKey(name, path);
+    return box.get(key);
   }
 }

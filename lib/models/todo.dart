@@ -12,10 +12,10 @@ class TodoList extends Item {
   @HiveField(50)
   List<TodoItem> items = [];
 
-  TodoList(name, {List<Folder> path, DateTime created, DateTime lastChange})
+  TodoList(name, {List<String> path, DateTime created, DateTime lastChange})
       : super(name, path: path, created: created, lastChange: lastChange);
 
-  factory TodoList.create(name, { List<Folder> path }) {
+  factory TodoList.create(name, { List<String> path }) {
     var note = TodoList(name, path: path);
     note.save();
     return note;

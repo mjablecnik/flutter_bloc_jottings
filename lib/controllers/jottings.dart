@@ -20,7 +20,7 @@ class JottingsController extends GetxController {
   }
 
   addItem(String name, ItemType type) async {
-    var item = Item.create(name, path: _currentFolder.path, type: type);
+    var item = Item.create(name, path: [..._currentFolder.path, _currentFolder.name], type: type);
     this.items.add(item);
     _currentFolder.items.add(item);
     _currentFolder.save();
@@ -34,15 +34,21 @@ class JottingsController extends GetxController {
 
   }
 
-  load() {
-    if (_currentFolder != null) return;
-
-    _currentFolder = Folder.load(rootFolderName, <Folder>[]);
+  _loadRootFolder() {
+    _currentFolder = Folder.load(rootFolderName, <String>[]);
 
     if (_currentFolder != null) {
       this.items.addAll(_currentFolder.items);
     } else {
-      _currentFolder = Folder.create(rootFolderName, path: <Folder>[]);
+      _currentFolder = Folder.create(rootFolderName, path: <String>[]);
+    }
+  }
+
+  load() {
+    if (_currentFolder == null) {
+      _loadRootFolder();
+    } else {
+      _currentFolder = Folder.load(_currentFolder.name, _currentFolder.path);
     }
   }
 

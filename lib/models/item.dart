@@ -13,7 +13,7 @@ class Item {
   String name;
 
   @HiveField(1)
-  List<Folder> path = List<Folder>();
+  List<String> path = List<String>();
 
   @HiveField(2)
   DateTime created = DateTime.now();
@@ -32,11 +32,11 @@ class Item {
     }
   }
 
-  static String getKey(String name, List<Folder> path) {
+  static String getKey(String name, List<String> path) {
     return getKeyByItem(Item(name, path: path));
   }
 
-  factory Item.create(name, { List<Folder> path, ItemType type }) {
+  factory Item.create(name, { List<String> path, ItemType type }) {
     switch (type) {
       case ItemType.note:
         return Note.create(name, path: path);
