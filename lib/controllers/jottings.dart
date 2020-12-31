@@ -5,21 +5,14 @@ import 'package:getx_example/models/folder.dart';
 import 'package:getx_example/models/item.dart';
 import 'package:getx_example/models/note.dart';
 import 'package:getx_example/models/todo.dart';
-import 'package:getx_example/repositories/folder.dart';
-import 'package:getx_example/repositories/note.dart';
 
 class JottingsController extends GetxController {
-
-  NoteRepository _noteRepository;
-  FolderRepository _folderRepository;
 
   List<Item> simpleList = <Item>[].obs;
   Folder currentFolder;
 
   onInit() {
     super.onInit();
-    _noteRepository = Get.find<NoteRepository>();
-    _folderRepository = Get.find<FolderRepository>();
     load();
   }
 
@@ -27,9 +20,9 @@ class JottingsController extends GetxController {
     var item;
     switch (type) {
       case ItemType.note:
-        item = _noteRepository.save(name, path: currentFolder.path);
+        item = Note.create(name, path: currentFolder.path);
         currentFolder.items.add(item);
-        _folderRepository.save(currentFolder);
+        currentFolder.save();
         break;
       case ItemType.todo:
         item = TodoList(name);
@@ -50,12 +43,12 @@ class JottingsController extends GetxController {
   }
 
   load() {
-    currentFolder = _folderRepository.get(rootFolderName, path: <Folder>[]);
+    currentFolder = Folder.load(rootFolderName, <Folder>[]);
 
     if (currentFolder != null) {
       simpleList.addAll(currentFolder.items);
     } else {
-      currentFolder = _folderRepository.create(rootFolderName, path: <Folder>[]);
+      currentFolder = Folder.create(rootFolderName, path: <Folder>[]);
     }
   }
 

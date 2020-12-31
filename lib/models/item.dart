@@ -1,10 +1,11 @@
 
 import 'package:hive/hive.dart';
+import 'package:getx_example/constants.dart';
 
 import 'folder.dart';
 
 
-abstract class Item {
+class Item extends HiveObject {
 
   @HiveField(0)
   String name;
@@ -19,4 +20,17 @@ abstract class Item {
   DateTime lastChange = DateTime.now();
 
   Item(this.name, {this.path, this.created, this.lastChange});
+
+
+  static String getKeyByItem(Item item) {
+    if (item.path != null && item.path.isNotEmpty) {
+      return pathSeparator + item.path.join(pathSeparator) + pathSeparator + item.name;
+    } else {
+      return pathSeparator + item.name;
+    }
+  }
+
+  static String getKey(String name, List<Folder> path) {
+    return getKeyByItem(Item(name, path: path));
+  }
 }
