@@ -5,7 +5,7 @@ import 'package:getx_example/constants.dart';
 import 'package:getx_example/controllers/dialog.dart';
 import 'package:getx_example/controllers/jottings.dart';
 
-class JottingsPage extends GetView<JottingsController> {
+class JottingsPage extends GetWidget<JottingsController> {
   @override
   Widget build(context) {
     var dialogController = Get.find<DialogController>();
@@ -17,12 +17,15 @@ class JottingsPage extends GetView<JottingsController> {
           padding: const EdgeInsets.all(10),
           itemCount: controller.simpleList.length,
           itemBuilder: (context, index) {
-            return Container(
-              height: 50,
-              margin: const EdgeInsets.all(5),
-              color: controller.getItemColor(controller.simpleList[index].runtimeType),
-              child: Center(
-                child: Text(controller.simpleList[index].name),
+            return GestureDetector(
+              onTap: () => controller.goNext(controller.simpleList[index]),
+              child: Container(
+                height: 50,
+                margin: const EdgeInsets.all(5),
+                color: controller.getItemColor(controller.simpleList[index].runtimeType),
+                child: Center(
+                  child: Text(controller.simpleList[index].name),
+                ),
               ),
             );
           },

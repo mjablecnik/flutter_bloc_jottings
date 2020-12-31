@@ -5,14 +5,17 @@ import 'package:getx_example/models/folder.dart';
 import 'package:getx_example/models/item.dart';
 import 'package:getx_example/models/note.dart';
 import 'package:getx_example/models/todo.dart';
+import 'package:getx_example/pages/jottings.dart';
 
 class JottingsController extends GetxController {
 
-  List<Item> simpleList = <Item>[].obs;
+  List<Item> simpleList = <Item>[Note.create("testItem1"), Note.create("testItem2")].obs;
   Folder currentFolder;
+
 
   onInit() {
     super.onInit();
+    currentFolder = Get.arguments;
     load();
   }
 
@@ -32,12 +35,21 @@ class JottingsController extends GetxController {
   }
 
   load() {
+    if (currentFolder != null) return;
+
     currentFolder = Folder.load(rootFolderName, <Folder>[]);
 
     if (currentFolder != null) {
       simpleList.addAll(currentFolder.items);
     } else {
       currentFolder = Folder.create(rootFolderName, path: <Folder>[]);
+    }
+  }
+
+  goNext(Item item) {
+    if (item.runtimeType == Folder) {
+      print("Going to next folder..");
+      Get.to(JottingsPage(), arguments: item);
     }
   }
 
