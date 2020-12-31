@@ -5,3 +5,6 @@ class Routes {
   static const OTHER = '/other';
   static const JOTTINGS = '/jottings';
 }
+
+const pathSeparator = "/";
+const rootFolderName = "root";

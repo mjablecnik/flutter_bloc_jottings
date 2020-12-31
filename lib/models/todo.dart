@@ -1,9 +1,11 @@
+import 'folder.dart';
 import 'item.dart';
 
 class TodoList extends Item {
   List<TodoItem> items = [];
 
-  TodoList(name, {this.items, created, lastChange}) : super(name, created: created, lastChange: lastChange);
+  TodoList(name, {List<Folder> path, DateTime created, DateTime lastChange})
+      : super(name, path: path, created: created, lastChange: lastChange);
 }
 
 class TodoItem {

@@ -1,7 +1,14 @@
+import 'package:hive/hive.dart';
+
 import 'item.dart';
 
-class Folder extends Item {
-  List<Item> items = [];
+part 'folder.g.dart';
 
-  Folder(name, {this.items, created, lastChange}) : super(name, created: created, lastChange: lastChange);
+@HiveType(typeId: 1)
+class Folder extends Item {
+  @HiveField(50)
+  List<Item> items = List<Item>();
+
+  Folder(name, {List<Folder> path, DateTime created, DateTime lastChange})
+      : super(name, path: path, created: created, lastChange: lastChange);
 }

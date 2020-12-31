@@ -1,7 +1,15 @@
-import 'item.dart';
+import 'package:hive/hive.dart';
 
+import 'item.dart';
+import 'folder.dart';
+
+part 'note.g.dart';
+
+@HiveType(typeId: 2)
 class Note extends Item {
+  @HiveField(50)
   String content = "";
 
-  Note(name, {this.content, created, lastChange}) : super(name, created: created, lastChange: lastChange);
+  Note(name, {List<Folder> path, DateTime created, DateTime lastChange})
+      : super(name, path: path, created: created, lastChange: lastChange);
 }
