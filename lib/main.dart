@@ -36,8 +36,8 @@ Future<void> main() async {
       initialBinding: BindingsBuilder(() {
         Get.lazyPut(() => BasicController(), fenix: true);
         Get.create(() => DialogController());
-        Get.create(() => JottingsController());
-        //Get.lazyPut(() => JottingsController(), fenix: true);
+        //Get.create(() => JottingsController());
+        Get.lazyPut(() => JottingsController(), fenix: true);
       }),
       getPages: [
         GetPage(name: Routes.HOME, page: () => Home()),
