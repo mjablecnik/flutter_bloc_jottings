@@ -5,7 +5,7 @@ import 'package:getx_example/constants.dart';
 import 'package:getx_example/controllers/dialog.dart';
 import 'package:getx_example/controllers/jottings.dart';
 
-class JottingsPage extends GetWidget<JottingsController> {
+class JottingsPage extends GetView<JottingsController> {
   @override
   Widget build(context) {
     var dialogController = Get.find<DialogController>();
