@@ -2,27 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:getx_example/constants.dart';
+import 'package:getx_example/controllers/jottings.dart';
 
-import 'jottings.dart';
-import 'basic.dart';
 
 class DialogController extends GetxController {
 
-  JottingsController _controller;
+  final JottingsController _controller;
   TextEditingController dialogInput;
 
-  onInit() {
-    super.onInit();
-
-    _controller = Get.find<JottingsController>();
+  DialogController(this._controller) {
     dialogInput = TextEditingController();
-    print("Create dialogController");
-  }
-
-  onClose() {
-    super.onClose();
-    dialogInput.dispose();
-    print("Dispose dialogController");
   }
 
   dialogInputConfirm([ItemType type]) {

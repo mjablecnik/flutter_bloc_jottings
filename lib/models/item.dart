@@ -21,6 +21,8 @@ class Item {
   @HiveField(3)
   DateTime lastChange = DateTime.now();
 
+  get id => [...this.path, name].join("/");
+
   Item(this.name, {this.path, this.created, this.lastChange});
 
 

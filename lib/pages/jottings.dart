@@ -2,16 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:getx_example/constants.dart';
-import 'package:getx_example/controllers/dialog.dart';
 import 'package:getx_example/controllers/jottings.dart';
 
-class JottingsPage extends GetView<JottingsController> {
+class JottingsPage extends StatelessWidget {
+
+  final JottingsController controller;
+
+  JottingsPage(this.controller);
+
   @override
   Widget build(context) {
-    var dialogController = Get.find<DialogController>();
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(centerTitle: true, title: Text("HashCode: " + controller.hashCode.toString())),
       body: Obx(
         () => ListView.builder(
           padding: const EdgeInsets.all(10),
@@ -35,9 +38,9 @@ class JottingsPage extends GetView<JottingsController> {
         buttonMinWidth: Get.width / 3.5,
         alignment: MainAxisAlignment.center,
         children: <RaisedButton>[
-          RaisedButton(onPressed: () => dialogController.open(ItemType.note), child: Text("Add note")),
-          RaisedButton(onPressed: () => dialogController.open(ItemType.todo), child: Text("Add todo")),
-          RaisedButton(onPressed: () => dialogController.open(ItemType.folder), child: Text("Add folder")),
+          RaisedButton(onPressed: () => controller.dialog.open(ItemType.note), child: Text("Add note")),
+          RaisedButton(onPressed: () => controller.dialog.open(ItemType.todo), child: Text("Add todo")),
+          RaisedButton(onPressed: () => controller.dialog.open(ItemType.folder), child: Text("Add folder")),
         ],
       ),
     );
