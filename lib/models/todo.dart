@@ -23,7 +23,14 @@ class TodoList extends Item {
 
   save() {
     var box = Hive.box<TodoList>(ItemType.todo.toString());
-    return box.put(Item.getKey(name, path), this);
+    var key = Item.getKey(name, path);
+    box.put(key, this);
+  }
+
+  static TodoList load(String name, List<String> path) {
+    var box = Hive.box<TodoList>(ItemType.folder.toString());
+    var key = Item.getKey(name, path);
+    return box.get(key);
   }
 }
 

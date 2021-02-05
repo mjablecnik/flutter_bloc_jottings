@@ -23,6 +23,13 @@ class Note extends Item {
 
   save() {
     var box = Hive.box<Note>(ItemType.note.toString());
-    return box.put(Item.getKey(name, path), this);
+    var key = Item.getKey(name, path);
+    box.put(key, this);
+  }
+
+  static Note load(String name, List<String> path) {
+    var box = Hive.box<Note>(ItemType.folder.toString());
+    var key = Item.getKey(name, path);
+    return box.get(key);
   }
 }
