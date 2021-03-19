@@ -1,14 +1,11 @@
-
-import 'package:getx_example/models/note.dart';
-import 'package:getx_example/models/todo.dart';
+import 'package:jottings/models/note.dart';
+import 'package:jottings/models/todo.dart';
 import 'package:hive/hive.dart';
-import 'package:getx_example/constants.dart';
+import 'package:jottings/common/constants.dart';
 
 import 'folder.dart';
 
-
 class Item {
-
   @HiveField(0)
   String name;
 
@@ -25,7 +22,6 @@ class Item {
 
   Item(this.name, {this.path, this.created, this.lastChange});
 
-
   static String getKeyByItem(Item item) {
     if (item.path != null && item.path.isNotEmpty) {
       return pathSeparator + item.path.join(pathSeparator) + pathSeparator + item.name;
@@ -38,16 +34,16 @@ class Item {
     return getKeyByItem(Item(name, path: path));
   }
 
-  factory Item.create(name, { List<String> path, ItemType type }) {
-    switch (type) {
-      case ItemType.note:
-        return Note.create(name, path: path);
+  factory Item.create(Item item, {List<String> path}) {
+    switch (item.runtimeType) {
+      case Note:
+        return Note.create(item.name, path: path);
         break;
-      case ItemType.todo:
-        return TodoList.create(name, path: path);
+      case TodoList:
+        return TodoList.create(item.name, path: path);
         break;
-      case ItemType.folder:
-        return Folder.create(name, path: path);
+      case Folder:
+        return Folder.create(item.name, path: path);
         break;
       default:
         return null;

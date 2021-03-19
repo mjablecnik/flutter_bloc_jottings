@@ -1,4 +1,4 @@
-import 'package:getx_example/constants.dart';
+import 'package:jottings/common/constants.dart';
 import 'package:hive/hive.dart';
 
 import 'folder.dart';

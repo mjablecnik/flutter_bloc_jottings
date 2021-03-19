@@ -1,37 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:getx_example/constants.dart';
-import 'package:getx_example/controllers/jottings.dart';
 
 
 class DialogController extends GetxController {
 
-  final JottingsController _controller;
-  TextEditingController dialogInput;
+  final TextEditingController dialogInput = TextEditingController();
+  final formKey = GlobalKey<FormState>();
 
-  DialogController(this._controller) {
-    dialogInput = TextEditingController();
+  var model;
+  String title;
+  Function onSubmit;
+
+  void submit() {
+    if (formKey.currentState.validate()) {
+      formKey.currentState.save();
+      onSubmit.call(model);
+      clearText();
+      Get.back();
+    }
   }
 
-  dialogInputConfirm([ItemType type]) {
-    _controller.addItem(dialogInput.text, type);
-    clearText();
-    Get.back();
-  }
+  void clearText() => dialogInput.text = "";
 
-  clearText() => dialogInput.text = "";
-
-  open([ItemType type]) {
-    Get.defaultDialog(
-      onConfirm: () => dialogInputConfirm(type),
-      onCancel: clearText,
-      textCancel: "Cancel",
-      textConfirm: "Confirm",
-      content: TextField(
-        controller: dialogInput,
-        onSubmitted: (_) => dialogInputConfirm(type),
-      ),
-    );
+  String titleValidator(value) {
+    if (value.isEmpty) {
+      return 'Please enter some text';
+    }
+    return null;
   }
 }

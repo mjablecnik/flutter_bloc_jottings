@@ -1,14 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:getx_example/constants.dart';
-import 'package:getx_example/controllers/jottings.dart';
+import 'package:jottings/controllers/dialog.dart';
+import 'package:jottings/controllers/jottings_list.dart';
+import 'package:jottings/models/folder.dart';
+import 'package:jottings/models/note.dart';
+import 'package:jottings/models/todo.dart';
+import 'package:jottings/widgets/item_dialog.dart';
 
-class JottingsPage extends StatelessWidget {
+class JottingsListPage extends StatelessWidget {
 
-  final JottingsController controller;
+  final JottingsListController controller;
 
-  JottingsPage(this.controller);
+  JottingsListPage(this.controller);
+
+  getDialog(context, item, title) {
+    Get.put(DialogController());
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return ItemDialog(
+          title: title,
+          model: item,
+          onSubmit: (item) => controller.addItem(item),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(context) {
@@ -38,9 +56,9 @@ class JottingsPage extends StatelessWidget {
         buttonMinWidth: Get.width / 3.5,
         alignment: MainAxisAlignment.center,
         children: <RaisedButton>[
-          RaisedButton(onPressed: () => controller.dialog.open(ItemType.note), child: Text("Add note")),
-          RaisedButton(onPressed: () => controller.dialog.open(ItemType.todo), child: Text("Add todo")),
-          RaisedButton(onPressed: () => controller.dialog.open(ItemType.folder), child: Text("Add folder")),
+          RaisedButton(onPressed: () => getDialog(context, Note(""), "Add note"), child: Text("Add note")),
+          RaisedButton(onPressed: () => getDialog(context, TodoList(""), "Add todo"), child: Text("Add todo")),
+          RaisedButton(onPressed: () => getDialog(context, Folder(""), "Add folder"), child: Text("Add folder")),
         ],
       ),
     );

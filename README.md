@@ -1,4 +1,4 @@
-# getx_example
+# jottings
 
 A new Flutter project.
 

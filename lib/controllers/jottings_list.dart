@@ -1,33 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:getx_example/constants.dart';
-import 'package:getx_example/controllers/dialog.dart';
-import 'package:getx_example/models/folder.dart';
-import 'package:getx_example/models/item.dart';
-import 'package:getx_example/models/note.dart';
-import 'package:getx_example/models/todo.dart';
-import 'package:getx_example/pages/jottings.dart';
+import 'package:jottings/common/constants.dart';
+import 'package:jottings/controllers/dialog.dart';
+import 'package:jottings/models/folder.dart';
+import 'package:jottings/models/item.dart';
+import 'package:jottings/models/note.dart';
+import 'package:jottings/models/todo.dart';
+import 'package:jottings/pages/jottings_list.dart';
 
-class JottingsController extends GetxController {
+class JottingsListController extends GetxController {
 
   List<Item> items = <Item>[Note.create("testItem1"), Note.create("testItem2")].obs;
   Folder _currentFolder;
-  DialogController _dialogController;
-  List<JottingsController> _openedFolders = [];
-
-  get dialog => _dialogController;
+  List<JottingsListController> _openedFolders = [];
 
   get id => _currentFolder.id;
 
-  JottingsController([this._currentFolder]) {
+  JottingsListController([this._currentFolder]) {
     load();
-    _dialogController = DialogController(this);
   }
 
-  addItem(String name, ItemType type) async {
-    var item = Item.create(name, path: [..._currentFolder.path, _currentFolder.name], type: type);
-    this.items.add(item);
-    _currentFolder.items.add(item);
+  addItem(Item item) async {
+    var createdItem = Item.create(item, path: [..._currentFolder.path, _currentFolder.name]);
+    this.items.add(createdItem);
+    _currentFolder.items.add(createdItem);
     _currentFolder.save();
   }
 
@@ -62,11 +58,11 @@ class JottingsController extends GetxController {
     if (item.runtimeType == Folder) {
       var folder = _openedFolders.firstWhere((e) => e.id == item.id, orElse: () => null);
       if (folder == null) {
-        folder = JottingsController(item);
+        folder = JottingsListController(item);
         _openedFolders.add(folder);
       }
       print("Going to next folder..");
-      Get.to(JottingsPage(folder), preventDuplicates: false);
+      Get.to(JottingsListPage(folder), preventDuplicates: false);
     }
   }
 
