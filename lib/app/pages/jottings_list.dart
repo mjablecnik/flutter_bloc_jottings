@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:jottings/controllers/dialog.dart';
-import 'package:jottings/controllers/jottings_list.dart';
-import 'package:jottings/models/folder.dart';
-import 'package:jottings/models/note.dart';
-import 'package:jottings/models/todo.dart';
-import 'package:jottings/widgets/item_dialog.dart';
+import 'package:jottings/app/controllers/dialog.dart';
+import 'package:jottings/app/controllers/jottings_list.dart';
+import 'package:jottings/app/models/folder.dart';
+import 'package:jottings/app/models/note.dart';
+import 'package:jottings/app/models/todo.dart';
+import 'package:jottings/app/widgets/item_dialog.dart';
 
 class JottingsListPage extends StatelessWidget {
 

@@ -1,7 +1,7 @@
-import 'package:jottings/models/note.dart';
-import 'package:jottings/models/todo.dart';
+import 'package:jottings/app/models/note.dart';
+import 'package:jottings/app/models/todo.dart';
+import 'package:jottings/app/common/constants.dart';
 import 'package:hive/hive.dart';
-import 'package:jottings/common/constants.dart';
 
 import 'folder.dart';
 

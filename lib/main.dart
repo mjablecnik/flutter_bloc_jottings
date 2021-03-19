@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:jottings/common/constants.dart';
-import 'package:jottings/controllers/jottings_list.dart';
-import 'package:jottings/models/todo.dart';
-import 'package:jottings/pages/jottings_list.dart';
+import 'package:jottings/app/common/constants.dart';
+import 'package:jottings/app/controllers/jottings_list.dart';
+import 'package:jottings/app/models/todo.dart';
+import 'package:jottings/app/models/folder.dart';
+import 'package:jottings/app/models/note.dart';
+import 'package:jottings/app/pages/jottings_list.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 
-import 'models/folder.dart';
-import 'models/note.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

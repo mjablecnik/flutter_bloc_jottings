@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jottings/controllers/dialog.dart';
+import 'package:jottings/app/controllers/dialog.dart';
 
 class ItemDialog extends GetView<DialogController> {
 

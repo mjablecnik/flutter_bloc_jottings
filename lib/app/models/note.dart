@@ -1,8 +1,7 @@
-import 'package:jottings/common/constants.dart';
+import 'package:jottings/app/common/constants.dart';
 import 'package:hive/hive.dart';
 
 import 'item.dart';
-import 'folder.dart';
 
 part 'note.g.dart';
 

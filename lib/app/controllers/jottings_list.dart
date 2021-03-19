@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jottings/common/constants.dart';
-import 'package:jottings/controllers/dialog.dart';
-import 'package:jottings/models/folder.dart';
-import 'package:jottings/models/item.dart';
-import 'package:jottings/models/note.dart';
-import 'package:jottings/models/todo.dart';
-import 'package:jottings/pages/jottings_list.dart';
+import 'package:jottings/app/common/constants.dart';
+import 'package:jottings/app/controllers/dialog.dart';
+import 'package:jottings/app/models/folder.dart';
+import 'package:jottings/app/models/item.dart';
+import 'package:jottings/app/models/note.dart';
+import 'package:jottings/app/models/todo.dart';
+import 'package:jottings/app/pages/jottings_list.dart';
 
 class JottingsListController extends GetxController {
 
