@@ -1,3 +1,4 @@
+import 'package:jottings/app/controllers/jottings_list_controller.dart';
 import 'package:jottings/app/models/note.dart';
 import 'package:jottings/app/models/todo.dart';
 import 'package:jottings/app/common/constants.dart';
@@ -17,6 +18,8 @@ class Item {
 
   @HiveField(3)
   DateTime lastChange = DateTime.now();
+
+  JottingsListController controller;
 
   get id => [...this.path, name].join("/");
 

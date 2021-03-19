@@ -28,6 +28,8 @@ dependencies:
   hive_flutter: ^0.3.1
   path_provider: ^1.6.24
 
+  flutter_slidable: ^0.5.7
+  implicitly_animated_reorderable_list: ^0.3.2
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

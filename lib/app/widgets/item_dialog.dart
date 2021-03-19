@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jottings/app/controllers/dialog.dart';
+import 'package:jottings/app/controllers/dialog_controller.dart';
 
 class ItemDialog extends GetView<DialogController> {
 
@@ -9,6 +9,20 @@ class ItemDialog extends GetView<DialogController> {
     controller.title = title;
     controller.model = model;
     controller.onSubmit = onSubmit;
+  }
+
+  static getDialog(context, item, title, onSubmit) {
+    Get.put(DialogController());
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return ItemDialog(
+          title: title,
+          model: item,
+          onSubmit: onSubmit,
+        );
+      },
+    );
   }
 
   @override

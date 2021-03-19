@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jottings/app/common/constants.dart';
-import 'package:jottings/app/controllers/dialog.dart';
 import 'package:jottings/app/models/folder.dart';
 import 'package:jottings/app/models/item.dart';
 import 'package:jottings/app/models/note.dart';
 import 'package:jottings/app/models/todo.dart';
-import 'package:jottings/app/pages/jottings_list.dart';
+import 'package:jottings/app/pages/main_page.dart';
 
 class JottingsListController extends GetxController {
 
-  List<Item> items = <Item>[Note.create("testItem1"), Note.create("testItem2")].obs;
+  List<Item> items = <Item>[].obs;
   Folder _currentFolder;
   List<JottingsListController> _openedFolders = [];
 
@@ -27,11 +26,11 @@ class JottingsListController extends GetxController {
     _currentFolder.save();
   }
 
-  removeItem(int index) {
-    this.items.removeAt(index);
+  removeItem(Item item) {
+    this.items.remove(item);
   }
 
-  editItem() {
+  editItem(Item item) {
 
   }
 
@@ -54,15 +53,14 @@ class JottingsListController extends GetxController {
     }
   }
 
-  goNext(Item item) {
+  goInto(Item item) {
     if (item.runtimeType == Folder) {
       var folder = _openedFolders.firstWhere((e) => e.id == item.id, orElse: () => null);
       if (folder == null) {
         folder = JottingsListController(item);
         _openedFolders.add(folder);
       }
-      print("Going to next folder..");
-      Get.to(JottingsListPage(folder), preventDuplicates: false);
+      Get.to(() => JottingsListPage(folder), preventDuplicates: false);
     }
   }
 

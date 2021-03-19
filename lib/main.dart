@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:jottings/app/common/constants.dart';
-import 'package:jottings/app/controllers/jottings_list.dart';
+import 'package:jottings/app/controllers/jottings_list_controller.dart';
 import 'package:jottings/app/models/todo.dart';
 import 'package:jottings/app/models/folder.dart';
 import 'package:jottings/app/models/note.dart';
-import 'package:jottings/app/pages/jottings_list.dart';
+import 'package:jottings/app/pages/main_page.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 
