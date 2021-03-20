@@ -1,10 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 import 'package:jottings/app/common/constants.dart';
 import 'package:jottings/app/models/folder.dart';
 import 'package:jottings/app/models/item.dart';
-import 'package:jottings/app/models/note.dart';
-import 'package:jottings/app/models/todo.dart';
 import 'package:jottings/app/pages/main_page.dart';
 
 class JottingsListController extends GetxController {
@@ -13,7 +11,11 @@ class JottingsListController extends GetxController {
   Folder _currentFolder;
   List<JottingsListController> _openedFolders = [];
 
+  Box _box = Hive.box(BoxStorage.jottingsListIds);
+
   get id => _currentFolder.id;
+
+  String _getListKey() => "folder_list_ids:${_currentFolder.id}";
 
   JottingsListController([this._currentFolder]) {
     load();
@@ -24,32 +26,57 @@ class JottingsListController extends GetxController {
     this.items.add(createdItem);
     _currentFolder.items.add(createdItem);
     _currentFolder.save();
+    _updateListIds();
   }
 
   removeItem(Item item) {
     this.items.remove(item);
+    _updateListIds();
   }
 
   editItem(Item item) {
 
   }
 
-  _loadRootFolder() {
-    _currentFolder = Folder.load(rootFolderName, <String>[]);
+  reorder(int oldIndex, int newIndex) {
+    var row = items.removeAt(oldIndex);
+    items.insert(newIndex, row);
+    _updateListIds();
+  }
+
+  _updateListIds() {
+    var idsList = items.map((e) => e.id).toList();
+    _box.put(_getListKey(), idsList);
+  }
+
+  Folder _getRootFolder() {
+    Folder _currentFolder = Folder.load(rootFolderName, <String>[]);
 
     if (_currentFolder != null) {
-      this.items.addAll(_currentFolder.items);
+      return _currentFolder;
     } else {
-      _currentFolder = Folder.create(rootFolderName, path: <String>[]);
+      return Folder.create(rootFolderName, path: <String>[]);
+    }
+  }
+  
+  _loadCurrentFolder() {
+    if (_currentFolder == null) {
+      _currentFolder = _getRootFolder();
+    } else {
+      _currentFolder = Folder.load(_currentFolder.name, _currentFolder.path);
     }
   }
 
   load() {
-    if (_currentFolder == null) {
-      _loadRootFolder();
+    _loadCurrentFolder();
+
+    List<dynamic> jottingsListIds = _box.get(_getListKey());
+    if (jottingsListIds == null) {
+      items.addAll(_currentFolder.items);
     } else {
-      _currentFolder = Folder.load(_currentFolder.name, _currentFolder.path);
-      this.items.addAll(_currentFolder.items);
+      for (var id in jottingsListIds) {
+        items.add(_currentFolder.items.firstWhere((e) => e.id == id));
+      }
     }
   }
 
@@ -61,23 +88,6 @@ class JottingsListController extends GetxController {
         _openedFolders.add(folder);
       }
       Get.to(() => JottingsListPage(folder), preventDuplicates: false);
-    }
-  }
-
-  getItemColor(Type item) {
-    switch (item) {
-      case Note:
-        return Colors.blue;
-        break;
-      case TodoList:
-        return Colors.green;
-        break;
-      case Folder:
-        return Colors.black38;
-        break;
-      default:
-        return Colors.red;
-        break;
     }
   }
 }

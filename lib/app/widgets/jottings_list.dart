@@ -20,7 +20,7 @@ class JottingsList extends StatelessWidget {
           items: controller.items,
           areItemsTheSame: (oldItem, newItem) => oldItem.id == newItem.id,
           onReorderFinished: (item, from, to, newItems) {
-            //controller.reorder(from, to);
+            controller.reorder(from, to);
           },
           itemBuilder: (context, itemAnimation, item, index) {
             item.controller = controller;

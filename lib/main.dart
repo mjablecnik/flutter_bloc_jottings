@@ -24,6 +24,7 @@ Future<void> main() async {
   await Hive.openBox<Note>(ItemType.note.toString());
   await Hive.openBox<TodoList>(ItemType.todo.toString());
   await Hive.openBox<Folder>(ItemType.folder.toString());
+  await Hive.openBox(BoxStorage.jottingsListIds);
 
   runApp(
     GetMaterialApp(
