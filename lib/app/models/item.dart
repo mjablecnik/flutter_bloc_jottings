@@ -1,12 +1,9 @@
 import 'package:hashids2/hashids2.dart';
 import 'package:jottings/app/common/utils.dart';
 import 'package:jottings/app/controllers/jottings_list_controller.dart';
-import 'package:jottings/app/models/note.dart';
-import 'package:jottings/app/models/todo.dart';
 import 'package:jottings/app/common/constants.dart';
 import 'package:hive/hive.dart';
 
-import 'folder.dart';
 
 abstract class Item {
   @HiveField(0)
@@ -55,22 +52,9 @@ abstract class Item {
 
   delete() {}
 
+  static getTypeFromId(String id) => enumFromString(ItemType.values, id.split("_")[0]);
+
   factory Item.load(String id) {
-    ItemType type = enumFromString(ItemType.values, id.split("_")[0]);
-    switch (type) {
-      case ItemType.Note:
-        var box = Hive.box<Note>(ItemType.Note.toString());
-        return box.get(id);
-      case ItemType.TodoList:
-        var box = Hive.box<TodoList>(ItemType.TodoList.toString());
-        return box.get(id);
-      case ItemType.Folder:
-        var box = Hive.box<Folder>(ItemType.Folder.toString());
-        return box.get(id);
-        break;
-      default:
-        return null;
-        break;
-    }
+    return getItemBox(getTypeFromId(id)).get(id);
   }
 }
