@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:get/get.dart';
 import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
 import 'package:jottings/app/models/folder.dart';
 import 'package:jottings/app/models/item.dart';
@@ -50,7 +51,7 @@ class _Item extends StatelessWidget {
       case Folder:
         return Icon(Icons.folder, color: Colors.orange);
       case TodoList:
-        return Icon(Icons.check_box, color: Colors.green);
+        return Icon(Icons.done, color: Colors.green);
       case Note:
         return Icon(Icons.edit, color: Colors.blue);
     }

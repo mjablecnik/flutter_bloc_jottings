@@ -21,10 +21,11 @@ Future<void> main() async {
     ..registerAdapter(TodoItemAdapter())
     ..registerAdapter(FolderAdapter());
 
-  await Hive.openBox<Note>(ItemType.note.toString());
-  await Hive.openBox<TodoList>(ItemType.todo.toString());
-  await Hive.openBox<Folder>(ItemType.folder.toString());
+  await Hive.openBox(BoxStorage.mainBox);
   await Hive.openBox(BoxStorage.jottingsListIds);
+  await Hive.openBox<Note>(ItemType.Note.toString());
+  await Hive.openBox<TodoList>(ItemType.TodoList.toString());
+  await Hive.openBox<Folder>(ItemType.Folder.toString());
 
   runApp(
     GetMaterialApp(

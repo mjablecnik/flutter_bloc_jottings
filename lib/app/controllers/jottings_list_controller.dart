@@ -15,28 +15,29 @@ class JottingsListController extends GetxController {
 
   get id => _currentFolder.id;
 
-  String _getListKey() => "folder_list_ids:${_currentFolder.id}";
+  String _getCurrentFolderListKey() => "folder_list_ids:${_currentFolder.id}";
 
   JottingsListController([this._currentFolder]) {
     load();
   }
 
   addItem(Item item) async {
-    var createdItem = Item.create(item, path: [..._currentFolder.path, _currentFolder.name]);
-    this.items.add(createdItem);
-    _currentFolder.items.add(createdItem);
+    item.dirPath = [..._currentFolder.dirPath, _currentFolder.name];
+    this.items.add(item);
+    item.save();
+    _currentFolder.itemIds.add(item.id);
     _currentFolder.save();
     _updateListIds();
   }
 
   removeItem(Item item) {
     this.items.remove(item);
+    //_currentFolder.itemIds.remove(item);
+    //_currentFolder.save();
     _updateListIds();
   }
 
-  editItem(Item item) {
-
-  }
+  editItem(Item item) { }
 
   reorder(int oldIndex, int newIndex) {
     var row = items.removeAt(oldIndex);
@@ -46,16 +47,16 @@ class JottingsListController extends GetxController {
 
   _updateListIds() {
     var idsList = items.map((e) => e.id).toList();
-    _box.put(_getListKey(), idsList);
+    _box.put(_getCurrentFolderListKey(), idsList);
   }
 
   Folder _getRootFolder() {
-    Folder _currentFolder = Folder.load(rootFolderName, <String>[]);
+    Folder _currentFolder = Item.load(rootFolderId);
 
     if (_currentFolder != null) {
       return _currentFolder;
     } else {
-      return Folder.create(rootFolderName, path: <String>[]);
+      return Folder.create(rootFolderId, dirPath: <String>[]);
     }
   }
   
@@ -63,20 +64,24 @@ class JottingsListController extends GetxController {
     if (_currentFolder == null) {
       _currentFolder = _getRootFolder();
     } else {
-      _currentFolder = Folder.load(_currentFolder.name, _currentFolder.path);
+      _currentFolder = Item.load(_currentFolder.id);
+    }
+  }
+
+  _loadItems(List<String> ids) {
+    for (var id in ids) {
+      items.add(Item.load(id));
     }
   }
 
   load() {
     _loadCurrentFolder();
 
-    List<dynamic> jottingsListIds = _box.get(_getListKey());
+    List<dynamic> jottingsListIds = _box.get(_getCurrentFolderListKey());
     if (jottingsListIds == null) {
-      items.addAll(_currentFolder.items);
+      _loadItems(_currentFolder.itemIds);
     } else {
-      for (var id in jottingsListIds) {
-        items.add(_currentFolder.items.firstWhere((e) => e.id == id));
-      }
+      _loadItems(jottingsListIds);
     }
   }
 

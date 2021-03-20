@@ -11,26 +11,31 @@ class TodoList extends Item {
   @HiveField(50)
   List<TodoItem> items = [];
 
-  TodoList(name, {List<String> path, DateTime created, DateTime lastChange})
-      : super(name, path: path, created: created, lastChange: lastChange);
+  TodoList(name, {String id, List<String> dirPath, DateTime created, DateTime lastChange})
+      : super(name, id: id, dirPath: dirPath, created: created, lastChange: lastChange);
 
-  factory TodoList.create(name, { List<String> path }) {
-    var note = TodoList(name, path: path);
+  factory TodoList.create(name, { List<String> dirPath }) {
+    var note = TodoList(name, dirPath: dirPath);
     note.save();
     return note;
   }
 
+  @override
   save() {
-    var box = Hive.box<TodoList>(ItemType.todo.toString());
-    var key = Item.getKey(name, path);
-    box.put(key, this);
+    var box = Hive.box<TodoList>(ItemType.TodoList.toString());
+    box.put(id, this);
   }
 
-  static TodoList load(String name, List<String> path) {
-    var box = Hive.box<TodoList>(ItemType.folder.toString());
-    var key = Item.getKey(name, path);
-    return box.get(key);
+  @override
+  delete() {
+    var box = Hive.box<TodoList>(ItemType.TodoList.toString());
+    box.delete(id);
   }
+
+  //static TodoList load(String id) {
+  //  var box = Hive.box<TodoList>(ItemType.folder.toString());
+  //  return box.get(id);
+  //}
 }
 
 @HiveType(typeId: 4)

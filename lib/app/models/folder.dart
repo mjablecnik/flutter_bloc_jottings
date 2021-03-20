@@ -9,27 +9,32 @@ part 'folder.g.dart';
 class Folder extends Item {
 
   @HiveField(50)
-  List<Item> items = List<Item>();
+  List<String> itemIds = List<String>();
 
-  Folder(name, {List<String> path, DateTime created, DateTime lastChange})
-      : super(name, path: path, created: created, lastChange: lastChange);
+  Folder(name, {String id, List<String> dirPath, DateTime created, DateTime lastChange})
+      : super(name, id: id, dirPath: dirPath, created: created, lastChange: lastChange);
 
 
-  factory Folder.create(name, { List<String> path }) {
-    var item = Folder(name, path: path);
+  factory Folder.create(name, { List<String> dirPath }) {
+    var item = Folder(name, dirPath: dirPath);
     item.save();
     return item;
   }
 
+  @override
   save() {
-    var box = Hive.box<Folder>(ItemType.folder.toString());
-    var key = Item.getKey(name, path);
-    box.put(key, this);
+    var box = Hive.box<Folder>(ItemType.Folder.toString());
+    box.put(id, this);
   }
 
-  static Folder load(String name, List<String> path) {
-    var box = Hive.box<Folder>(ItemType.folder.toString());
-    var key = Item.getKey(name, path);
-    return box.get(key);
+  @override
+  delete() {
+    var box = Hive.box<Folder>(ItemType.Folder.toString());
+    box.delete(id);
   }
+
+  //static Folder load(String id) {
+  //  var box = Hive.box<Folder>(ItemType.folder.toString());
+  //  return box.get(id);
+  //}
 }

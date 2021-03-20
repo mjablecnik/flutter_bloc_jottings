@@ -11,24 +11,29 @@ class Note extends Item {
   @HiveField(50)
   String content = "";
 
-  Note(name, {List<String> path, DateTime created, DateTime lastChange})
-      : super(name, path: path, created: created, lastChange: lastChange);
+  Note(name, {String id, List<String> dirPath, DateTime created, DateTime lastChange})
+      : super(name, id: id, dirPath: dirPath, created: created, lastChange: lastChange);
 
-  factory Note.create(name, { List<String> path }) {
-    var note = Note(name, path: path);
+  factory Note.create(name, { List<String> dirPath }) {
+    var note = Note(name, dirPath: dirPath);
     note.save();
     return note;
   }
 
+  @override
   save() {
-    var box = Hive.box<Note>(ItemType.note.toString());
-    var key = Item.getKey(name, path);
-    box.put(key, this);
+    var box = Hive.box<Note>(ItemType.Note.toString());
+    box.put(id, this);
   }
 
-  static Note load(String name, List<String> path) {
-    var box = Hive.box<Note>(ItemType.folder.toString());
-    var key = Item.getKey(name, path);
-    return box.get(key);
+  @override
+  delete() {
+    var box = Hive.box<Note>(ItemType.Note.toString());
+    box.delete(id);
   }
+
+  //static Note load(String id) {
+  //  var box = Hive.box<Note>(ItemType.folder.toString());
+  //  return box.get(id);
+  //}
 }
