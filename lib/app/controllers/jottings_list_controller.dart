@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:jottings/app/common/constants.dart';
+import 'package:jottings/app/common/utils.dart';
 import 'package:jottings/app/models/folder.dart';
 import 'package:jottings/app/models/item.dart';
 import 'package:jottings/app/pages/main_page.dart';
@@ -14,6 +16,8 @@ class JottingsListController extends GetxController {
   Box _box = Hive.box(BoxStorage.jottingsListIds);
 
   get id => _currentFolder.id;
+
+  get folder => _currentFolder;
 
   String _getCurrentFolderListKey() => "folder_list_ids:${_currentFolder.id}";
 
@@ -30,10 +34,27 @@ class JottingsListController extends GetxController {
     _updateListIds();
   }
 
+  _removeFolderItems(Folder folder) async {
+    for (String itemId in folder.itemIds) {
+      if (Item.getTypeFromId(itemId) == ItemType.Folder) {
+        var openedFolderController = _openedFolders.where((element) => element.folder.id == itemId);
+        Folder item = openedFolderController.isEmpty ? Item.load(itemId) : openedFolderController.first.folder;
+        this._removeFolderItems(item);
+        item.delete();
+      } else {
+        Item.load(itemId).delete();
+      }
+    }
+  }
+
   removeItem(Item item) {
     this.items.remove(item);
-    //_currentFolder.itemIds.remove(item);
-    //_currentFolder.save();
+    if (item.runtimeType == Folder) {
+      _removeFolderItems(item);
+      _openedFolders.removeWhere((element) => element.folder.id == item.id);
+    }
+    _currentFolder.itemIds.remove(item.id);
+    _currentFolder.save();
     _updateListIds();
   }
 
