@@ -1,8 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:jottings/app/common/constants.dart';
-import 'package:jottings/app/common/utils.dart';
 import 'package:jottings/app/models/folder.dart';
 import 'package:jottings/app/models/item.dart';
 import 'package:jottings/app/pages/main_page.dart';
@@ -15,9 +13,9 @@ class JottingsListController extends GetxController {
 
   Box _box = Hive.box(BoxStorage.jottingsListIds);
 
-  get id => _currentFolder.id;
+  String get id => _currentFolder.id;
 
-  get folder => _currentFolder;
+  Folder get folder => _currentFolder;
 
   String _getCurrentFolderListKey() => "folder_list_ids:${_currentFolder.id}";
 
@@ -77,7 +75,7 @@ class JottingsListController extends GetxController {
     if (_currentFolder != null) {
       return _currentFolder;
     } else {
-      return Folder.create(rootFolderId, dirPath: <String>[]);
+      return Folder.create(rootFolderName, dirPath: <String>[]);
     }
   }
   

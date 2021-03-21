@@ -19,7 +19,7 @@ class JottingsListPage extends StatelessWidget {
     var onSubmit = (item) => controller.addItem(item);
 
     return Scaffold(
-      appBar: AppBar(centerTitle: true, title: Text("HashCode: " + controller.hashCode.toString())),
+      appBar: AppBar(centerTitle: true, title: Text(controller.folder.path)),
       body: JottingsList(controller),
       bottomNavigationBar: ButtonBar(
         buttonMinWidth: Get.width / 3.5,

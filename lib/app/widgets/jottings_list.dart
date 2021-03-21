@@ -38,7 +38,7 @@ class JottingsList extends StatelessWidget {
           },
         );
       } else {
-        return Center(child: CircularProgressIndicator());
+        return Container();
       }
     });
   }

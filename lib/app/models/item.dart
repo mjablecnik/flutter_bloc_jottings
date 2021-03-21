@@ -39,7 +39,7 @@ abstract class Item {
 
   String _getId() {
     int id = 0;
-    if (name != rootFolderId) {
+    if (this.name != rootFolderName) {
       Box box = Hive.box(BoxStorage.mainBox);
       int lastId = box.get(BoxStorage.idCounter) ?? 0;
       id = ++lastId;

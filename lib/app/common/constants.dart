@@ -1,7 +1,8 @@
 enum ItemType { Folder, TodoList, Note }
 
 const pathSeparator = "/";
-const rootFolderId = "Folder_root";
+const rootFolderName = "root";
+const rootFolderId = "Folder_$rootFolderName";
 
 class BoxStorage {
   static const mainBox = 'jottings';
