@@ -6,7 +6,6 @@ import 'package:jottings/app/models/item.dart';
 import 'package:jottings/app/pages/main_page.dart';
 
 class JottingsListController extends GetxController {
-
   List<Item> items = <Item>[].obs;
   Folder _currentFolder;
   List<JottingsListController> _openedFolders = [];
@@ -78,7 +77,7 @@ class JottingsListController extends GetxController {
       return Folder.create(rootFolderName, dirPath: <String>[]);
     }
   }
-  
+
   _loadCurrentFolder() {
     if (_currentFolder == null) {
       _currentFolder = _getRootFolder();
@@ -111,7 +110,11 @@ class JottingsListController extends GetxController {
         folder = JottingsListController(item);
         _openedFolders.add(folder);
       }
-      Get.to(() => JottingsListPage(folder), preventDuplicates: false);
+      Get.to(
+        () => JottingsListPage(folder),
+        preventDuplicates: false,
+        duration: Duration(seconds: 0),
+      );
     }
   }
 }
