@@ -9,3 +9,10 @@ class BoxStorage {
   static const jottingsListIds = 'jottings_list_ids';
   static const idCounter = 'id_counter';
 }
+
+
+class Texts {
+  static const addNoteItem = "Add note";
+  static const addTodoListItem = "Add todo list";
+  static const addFolderItem = "Add folder";
+}

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:jottings/app/common/constants.dart';
 import 'package:jottings/app/controllers/jottings_list_controller.dart';
 import 'package:jottings/app/models/folder.dart';
 import 'package:jottings/app/models/note.dart';
@@ -16,18 +17,23 @@ class JottingsListPage extends StatelessWidget {
 
   @override
   Widget build(context) {
-    var onSubmit = (item) => controller.addItem(item);
-
     return Scaffold(
       appBar: AppBar(centerTitle: true, title: Text(controller.folder.path)),
       body: JottingsList(controller),
-      bottomNavigationBar: ButtonBar(
-        buttonMinWidth: Get.width / 3.5,
-        alignment: MainAxisAlignment.center,
-        children: <RaisedButton>[
-          RaisedButton(onPressed: () => ItemDialog.getDialog(context, Note(""), "Add note", onSubmit), child: Text("Add note")),
-          RaisedButton(onPressed: () => ItemDialog.getDialog(context, TodoList(""), "Add todo", onSubmit), child: Text("Add todo")),
-          RaisedButton(onPressed: () => ItemDialog.getDialog(context, Folder(""), "Add folder", onSubmit), child: Text("Add folder")),
+      bottomNavigationBar: BottomNavigationBar(
+        unselectedItemColor: Colors.blue,
+        onTap: (index) {
+          var onSubmit = (item) => controller.addItem(item);
+          switch (index) {
+            case 0: ItemDialog.getDialog(context, Note(""), Texts.addNoteItem, onSubmit); break;
+            case 1: ItemDialog.getDialog(context, TodoList(""), Texts.addTodoListItem, onSubmit); break;
+            case 2: ItemDialog.getDialog(context, Folder(""), Texts.addFolderItem, onSubmit); break;
+          }
+        },
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.notes_outlined), label: Texts.addNoteItem),
+          BottomNavigationBarItem(icon: Icon(Icons.list_alt), label: Texts.addTodoListItem),
+          BottomNavigationBarItem(icon: Icon(Icons.folder), label: Texts.addFolderItem),
         ],
       ),
     );

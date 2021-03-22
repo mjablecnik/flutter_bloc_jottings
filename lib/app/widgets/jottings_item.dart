@@ -51,9 +51,9 @@ class _Item extends StatelessWidget {
       case Folder:
         return Icon(Icons.folder, color: Colors.orange);
       case TodoList:
-        return Icon(Icons.done, color: Colors.green);
+        return Icon(Icons.list_alt, color: Colors.green);
       case Note:
-        return Icon(Icons.edit, color: Colors.blue);
+        return Icon(Icons.notes_rounded, color: Colors.blue);
     }
     return Icon(Icons.error, color: Colors.red);
   }
