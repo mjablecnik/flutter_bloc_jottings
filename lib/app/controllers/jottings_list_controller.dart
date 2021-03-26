@@ -91,10 +91,8 @@ class JottingsListController extends GetxController {
   load() {
     _loadCurrentFolder();
 
-    List<dynamic>? jottingsListIds = _box.get(_getCurrentFolderListKey());
-    if (jottingsListIds != null) {
-      _loadItems(List.from(jottingsListIds));
-    }
+    List<dynamic> jottingsListIds = _box.get(_getCurrentFolderListKey()) ?? [];
+    _loadItems(List.from(jottingsListIds));
   }
 
   goInto(Item item) {
