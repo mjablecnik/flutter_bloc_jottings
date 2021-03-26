@@ -7,26 +7,27 @@ import 'package:jottings/app/pages/main_page.dart';
 
 class JottingsListController extends GetxController {
   List<Rx<Item>> items = <Rx<Item>>[].obs;
-  Folder _currentFolder;
+  late Folder _currentFolder;
   List<JottingsListController> _openedFolders = [];
 
   Box _box = Hive.box(BoxStorage.jottingsListIds);
 
-  String get id => _currentFolder.id;
+  String? get id => _currentFolder.id;
 
   Folder get folder => _currentFolder;
 
   String _getCurrentFolderListKey() => "folder_list_ids:${_currentFolder.id}";
 
-  JottingsListController([this._currentFolder]) {
+  JottingsListController(currentFolder) {
+    _currentFolder = currentFolder;
     load();
   }
 
   addItem(Item item) async {
-    item.dirPath = [..._currentFolder.dirPath, _currentFolder.name];
+    item.dirPath = [..._currentFolder.dirPath!, _currentFolder.name];
     this.items.add(item.obs);
     item.save();
-    _currentFolder.itemIds.add(item.id);
+    _currentFolder.itemIds.add(item.id!);
     _currentFolder.save();
     _updateListIds();
   }
@@ -35,11 +36,11 @@ class JottingsListController extends GetxController {
     for (String itemId in folder.itemIds) {
       if (Item.getTypeFromId(itemId) == ItemType.Folder) {
         var openedFolderController = _openedFolders.where((element) => element.folder.id == itemId);
-        Folder item = openedFolderController.isEmpty ? Item.load(itemId) : openedFolderController.first.folder;
+        Folder item = openedFolderController.isEmpty ? Folder.load(itemId)! : openedFolderController.first.folder;
         this._removeFolderItems(item);
         item.delete();
       } else {
-        Item.load(itemId).delete();
+        Item.load(itemId)!.delete();
       }
     }
   }
@@ -47,7 +48,7 @@ class JottingsListController extends GetxController {
   removeItem(Item item) {
     this.items.remove(item);
     if (item.runtimeType == Folder) {
-      _removeFolderItems(item);
+      _removeFolderItems(item as Folder);
       _openedFolders.removeWhere((element) => element.folder.id == item.id);
     }
     _currentFolder.itemIds.remove(item.id);
@@ -56,9 +57,9 @@ class JottingsListController extends GetxController {
   }
 
   editItem(Item item) {
-    var changedItem = items.where((element) => element.value.id == item.id).first;
+    var changedItem = items.where((element) => element.value!.id == item.id).first;
     changedItem(item);
-    changedItem.value.save();
+    changedItem.value!.save();
   }
 
   reorder(int oldIndex, int newIndex) {
@@ -68,54 +69,46 @@ class JottingsListController extends GetxController {
   }
 
   _updateListIds() {
-    var idsList = items.map((e) => e.value.id).toList();
+    var idsList = items.map((e) => e.value!.id).toList();
     _box.put(_getCurrentFolderListKey(), idsList);
   }
 
-  Folder _getRootFolder() {
-    Folder _currentFolder = Item.load(rootFolderId);
-
-    if (_currentFolder != null) {
-      return _currentFolder;
-    } else {
-      return Folder.create(rootFolderName, dirPath: <String>[]);
-    }
-  }
-
   _loadCurrentFolder() {
-    if (_currentFolder == null) {
-      _currentFolder = _getRootFolder();
-    } else {
-      _currentFolder = Item.load(_currentFolder.id);
+    Folder? folder = Folder.load(_currentFolder.id!);
+
+    if (folder != null) {
+      _currentFolder = folder;
     }
   }
 
   _loadItems(List<String> ids) {
+    _currentFolder.itemIds = List.from(ids);
     for (var id in ids) {
-      items.add(Item.load(id).obs);
+      items.add(Item.load(id)!.obs);
     }
   }
 
   load() {
     _loadCurrentFolder();
 
-    List<dynamic> jottingsListIds = _box.get(_getCurrentFolderListKey());
-    if (jottingsListIds == null) {
-      _loadItems(_currentFolder.itemIds);
-    } else {
-      _loadItems(jottingsListIds);
+    List<dynamic>? jottingsListIds = _box.get(_getCurrentFolderListKey());
+    if (jottingsListIds != null) {
+      _loadItems(List.from(jottingsListIds));
     }
   }
 
   goInto(Item item) {
     if (item.runtimeType == Folder) {
-      var folder = _openedFolders.firstWhere((e) => e.id == item.id, orElse: () => null);
-      if (folder == null) {
+      late var folder;
+      var folderList = _openedFolders.where((e) => e.id == item.id);
+      if (folderList.isEmpty) {
         folder = JottingsListController(item);
         _openedFolders.add(folder);
+      } else {
+        folder = folderList.first;
       }
       Get.to(
-        () => JottingsListPage(folder),
+        () => JottingsListPage(folder!),
         preventDuplicates: false,
         duration: Duration(seconds: 0),
       );

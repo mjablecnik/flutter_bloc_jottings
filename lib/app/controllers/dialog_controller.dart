@@ -9,12 +9,12 @@ class DialogController extends GetxController {
   final formKey = GlobalKey<FormState>();
 
   var model;
-  String title;
-  Function onSubmit;
+  late String title;
+  late Function onSubmit;
 
   void submit() {
-    if (formKey.currentState.validate()) {
-      formKey.currentState.save();
+    if (formKey.currentState!.validate()) {
+      formKey.currentState!.save();
       onSubmit.call(model);
       clearText();
       Get.back();
@@ -23,7 +23,7 @@ class DialogController extends GetxController {
 
   void clearText() => dialogInput.text = "";
 
-  String titleValidator(value) {
+  String? titleValidator(value) {
     if (value.isEmpty) {
       return 'Please enter some text';
     }

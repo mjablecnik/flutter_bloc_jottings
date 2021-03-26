@@ -9,13 +9,15 @@ part 'folder.g.dart';
 class Folder extends Item {
 
   @HiveField(50)
-  List<String> itemIds = List<String>();
+  List<String> itemIds = [];
 
-  Folder(name, {String id, List<String> dirPath, DateTime created, DateTime lastChange})
+  bool isRoot = false;
+
+  Folder(name, {String? id, List<String>? dirPath, DateTime? created, DateTime? lastChange, bool? isRoot})
       : super(name, id: id, dirPath: dirPath, created: created, lastChange: lastChange);
 
 
-  factory Folder.create(name, { List<String> dirPath }) {
+  factory Folder.create(name, { List<String>? dirPath, bool? isRoot }) {
     var item = Folder(name, dirPath: dirPath);
     item.save();
     return item;
@@ -33,8 +35,11 @@ class Folder extends Item {
     box.delete(id);
   }
 
-  //static Folder load(String id) {
-  //  var box = Hive.box<Folder>(ItemType.folder.toString());
-  //  return box.get(id);
-  //}
+  static Folder root() {
+    return Folder.create(rootFolderName, dirPath: <String>[], isRoot: true);
+  }
+
+  static Folder? load(String id) {
+    return Item.load(id) as Folder?;
+  }
 }

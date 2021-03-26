@@ -18,12 +18,12 @@ class JottingsList extends StatelessWidget {
       if (controller.items.length > 0) {
         return ImplicitlyAnimatedReorderableList<Rx<Item>>(
           items: controller.items,
-          areItemsTheSame: (oldItem, newItem) => oldItem.value.id == newItem.value.id,
+          areItemsTheSame: (oldItem, newItem) => oldItem!.value!.id == newItem!.value!.id,
           onReorderFinished: (item, from, to, newItems) {
-            controller.reorder(from, to);
+            controller.reorder(from!, to);
           },
           itemBuilder: (context, itemAnimation, item, index) {
-            item.value.controller = controller;
+            item.value!.controller = controller;
             return Reorderable(
               key: ValueKey(item),
               builder: (context, dragAnimation, inDrag) {

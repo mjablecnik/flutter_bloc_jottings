@@ -11,7 +11,7 @@ class ItemDialog extends GetView<DialogController> {
     controller.onSubmit = onSubmit;
   }
 
-  static getDialog(context, {Item item, String title, ValueSetter<Item> onSubmit}) {
+  static getDialog(context, {required Item item, required String title, required ValueSetter<Item> onSubmit}) {
     Get.put(DialogController());
     showDialog(
       context: context,

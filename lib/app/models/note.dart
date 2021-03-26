@@ -11,10 +11,10 @@ class Note extends Item {
   @HiveField(50)
   String content = "";
 
-  Note(name, {String id, List<String> dirPath, DateTime created, DateTime lastChange})
+  Note(name, {String? id, List<String>? dirPath, DateTime? created, DateTime? lastChange})
       : super(name, id: id, dirPath: dirPath, created: created, lastChange: lastChange);
 
-  factory Note.create(name, { List<String> dirPath }) {
+  factory Note.create(name, { List<String>? dirPath }) {
     var note = Note(name, dirPath: dirPath);
     note.save();
     return note;
@@ -32,8 +32,7 @@ class Note extends Item {
     box.delete(id);
   }
 
-  //static Note load(String id) {
-  //  var box = Hive.box<Note>(ItemType.folder.toString());
-  //  return box.get(id);
-  //}
+  static Note? load(String id) {
+    return Item.load(id) as Note?;
+  }
 }

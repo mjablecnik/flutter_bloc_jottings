@@ -11,10 +11,10 @@ class TodoList extends Item {
   @HiveField(50)
   List<TodoItem> items = [];
 
-  TodoList(name, {String id, List<String> dirPath, DateTime created, DateTime lastChange})
+  TodoList(name, {String? id, List<String>? dirPath, DateTime? created, DateTime? lastChange})
       : super(name, id: id, dirPath: dirPath, created: created, lastChange: lastChange);
 
-  factory TodoList.create(name, { List<String> dirPath }) {
+  factory TodoList.create(name, { List<String>? dirPath }) {
     var note = TodoList(name, dirPath: dirPath);
     note.save();
     return note;
@@ -32,10 +32,9 @@ class TodoList extends Item {
     box.delete(id);
   }
 
-  //static TodoList load(String id) {
-  //  var box = Hive.box<TodoList>(ItemType.folder.toString());
-  //  return box.get(id);
-  //}
+  static TodoList? load(String id) {
+    return Item.load(id) as TodoList?;
+  }
 }
 
 @HiveType(typeId: 4)

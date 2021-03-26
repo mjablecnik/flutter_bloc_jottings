@@ -27,10 +27,11 @@ Future<void> main() async {
   await Hive.openBox<TodoList>(ItemType.TodoList.toString());
   await Hive.openBox<Folder>(ItemType.Folder.toString());
 
+
   runApp(
     GetMaterialApp(
       smartManagement: SmartManagement.full,
-      home: JottingsListPage(JottingsListController()),
+      home: JottingsListPage(JottingsListController(Folder.root())),
     ),
   );
 }

@@ -4,26 +4,25 @@ import 'package:jottings/app/controllers/jottings_list_controller.dart';
 import 'package:jottings/app/common/constants.dart';
 import 'package:hive/hive.dart';
 
-
 abstract class Item {
   @HiveField(0)
-  String id;
-  
+  String? id;
+
   @HiveField(1)
   String name;
 
   @HiveField(2)
-  List<String> dirPath = List<String>();
+  List<String>? dirPath = <String>[];
 
   @HiveField(3)
-  DateTime created = DateTime.now();
+  DateTime? created = DateTime.now();
 
   @HiveField(4)
-  DateTime lastChange = DateTime.now();
+  DateTime? lastChange = DateTime.now();
 
-  JottingsListController controller;
+  JottingsListController? controller;
 
-  get path => [...this.dirPath, name].join("/");
+  get path => [...this.dirPath!, name].join("/");
 
   final HashIds _hashids = HashIds(
     salt: "AH*vQxE^DaR5AM=y8E^n]tR/nv6-]7*GmJ",
@@ -31,7 +30,13 @@ abstract class Item {
     alphabet: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890',
   );
 
-  Item(this.name, {this.id, this.dirPath, this.created, this.lastChange}) {
+  Item(
+    this.name, {
+    this.id,
+    this.dirPath,
+    this.created,
+    this.lastChange,
+  }) {
     if (id == null) {
       id = _getId();
     }
@@ -54,7 +59,7 @@ abstract class Item {
 
   static getTypeFromId(String id) => enumFromString(ItemType.values, id.split("_")[0]);
 
-  factory Item.load(String id) {
+  static Item? load(String id) {
     return getItemBox(getTypeFromId(id)).get(id);
   }
 }

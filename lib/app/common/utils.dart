@@ -6,8 +6,7 @@ import 'package:jottings/app/models/todo.dart';
 
 
 T enumFromString<T>(List<T> values, String value) {
-  return values.firstWhere((v) => v.toString().split('.')[1] == value,
-      orElse: () => null);
+  return values.firstWhere((v) => v.toString().split('.')[1] == value);
 }
 
 getItemBox(ItemType type) {
@@ -18,6 +17,5 @@ getItemBox(ItemType type) {
       return Hive.box<TodoList>(ItemType.TodoList.toString());
     case ItemType.Folder:
       return Hive.box<Folder>(ItemType.Folder.toString());
-      break;
   }
 }
