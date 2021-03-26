@@ -6,7 +6,7 @@ import 'package:jottings/app/models/item.dart';
 import 'package:jottings/app/pages/main_page.dart';
 
 class JottingsListController extends GetxController {
-  List<Item> items = <Item>[].obs;
+  List<Rx<Item>> items = <Rx<Item>>[].obs;
   Folder _currentFolder;
   List<JottingsListController> _openedFolders = [];
 
@@ -24,7 +24,7 @@ class JottingsListController extends GetxController {
 
   addItem(Item item) async {
     item.dirPath = [..._currentFolder.dirPath, _currentFolder.name];
-    this.items.add(item);
+    this.items.add(item.obs);
     item.save();
     _currentFolder.itemIds.add(item.id);
     _currentFolder.save();
@@ -55,7 +55,11 @@ class JottingsListController extends GetxController {
     _updateListIds();
   }
 
-  editItem(Item item) { }
+  editItem(Item item) {
+    var changedItem = items.where((element) => element.value.id == item.id).first;
+    changedItem(item);
+    changedItem.value.save();
+  }
 
   reorder(int oldIndex, int newIndex) {
     var row = items.removeAt(oldIndex);
@@ -64,7 +68,7 @@ class JottingsListController extends GetxController {
   }
 
   _updateListIds() {
-    var idsList = items.map((e) => e.id).toList();
+    var idsList = items.map((e) => e.value.id).toList();
     _box.put(_getCurrentFolderListKey(), idsList);
   }
 
@@ -88,7 +92,7 @@ class JottingsListController extends GetxController {
 
   _loadItems(List<String> ids) {
     for (var id in ids) {
-      items.add(Item.load(id));
+      items.add(Item.load(id).obs);
     }
   }
 

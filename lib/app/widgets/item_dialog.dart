@@ -2,16 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jottings/app/controllers/dialog_controller.dart';
+import 'package:jottings/app/models/item.dart';
 
 class ItemDialog extends GetView<DialogController> {
-
   ItemDialog({@required model, @required title, @required onSubmit}) {
     controller.title = title;
     controller.model = model;
     controller.onSubmit = onSubmit;
   }
 
-  static getDialog(context, item, title, onSubmit) {
+  static getDialog(context, {Item item, String title, ValueSetter<Item> onSubmit}) {
     Get.put(DialogController());
     showDialog(
       context: context,

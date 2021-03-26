@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
+import 'package:jottings/app/controllers/jottings_list_controller.dart';
 import 'package:jottings/app/models/folder.dart';
 import 'package:jottings/app/models/item.dart';
 import 'package:jottings/app/models/note.dart';
@@ -9,7 +10,7 @@ import 'package:jottings/app/models/todo.dart';
 import 'package:jottings/app/widgets/item_dialog.dart';
 
 class JottingsItem extends StatelessWidget {
-  final Item item;
+  final Rx<Item> item;
 
   JottingsItem(this.item);
 
@@ -19,8 +20,8 @@ class JottingsItem extends StatelessWidget {
       actionPane: SlidableScrollActionPane(),
       actionExtentRatio: 0.19,
       child: GestureDetector(
-          onTap: () => this.item.controller.goInto(item),
-          child: _Item(this.item),
+        onTap: () => this.item.value.controller.goInto(item.value),
+        child: _Item(this.item),
       ),
       secondaryActions: <Widget>[
         IconSlideAction(
@@ -28,13 +29,17 @@ class JottingsItem extends StatelessWidget {
           color: Colors.blue,
           icon: Icons.edit,
           onTap: () => ItemDialog.getDialog(
-              context, item, "Edit item", (item) => this.item.controller.editItem(item)),
+            context,
+            item: item.value,
+            title: "Edit item",
+            onSubmit: (item) => this.item.value.controller.editItem(item),
+          ),
         ),
         IconSlideAction(
           caption: 'Remove',
           color: Colors.red,
           icon: Icons.delete,
-          onTap: () => item.controller.removeItem(item),
+          onTap: () => item.value.controller.removeItem(item.value),
         ),
       ],
     );
@@ -44,7 +49,7 @@ class JottingsItem extends StatelessWidget {
 class _Item extends StatelessWidget {
   const _Item(this.item);
 
-  final Item item;
+  final Rx<Item> item;
 
   Icon _getIcon(Item item) {
     switch (item.runtimeType) {
@@ -69,12 +74,20 @@ class _Item extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: _getIcon(item),
+                child: _getIcon(item.value),
               ),
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.only(left: 8.0),
-                  child: Text(item.name, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18)),
+                  child: Obx(
+                    () => Text(
+                      item.value.name,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
                 ),
               ),
               Padding(

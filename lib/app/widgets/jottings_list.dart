@@ -16,14 +16,14 @@ class JottingsList extends StatelessWidget {
   Widget build(context) {
     return Obx(() {
       if (controller.items.length > 0) {
-        return ImplicitlyAnimatedReorderableList<Item>(
+        return ImplicitlyAnimatedReorderableList<Rx<Item>>(
           items: controller.items,
-          areItemsTheSame: (oldItem, newItem) => oldItem.id == newItem.id,
+          areItemsTheSame: (oldItem, newItem) => oldItem.value.id == newItem.value.id,
           onReorderFinished: (item, from, to, newItems) {
             controller.reorder(from, to);
           },
           itemBuilder: (context, itemAnimation, item, index) {
-            item.controller = controller;
+            item.value.controller = controller;
             return Reorderable(
               key: ValueKey(item),
               builder: (context, dragAnimation, inDrag) {
