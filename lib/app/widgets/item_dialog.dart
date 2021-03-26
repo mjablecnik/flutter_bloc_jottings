@@ -1,18 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jottings/app/controllers/dialog_controller.dart';
 import 'package:jottings/app/models/item.dart';
 
-class ItemDialog extends GetView<DialogController> {
-  ItemDialog({@required model, @required title, @required onSubmit}) {
-    controller.title = title;
-    controller.model = model;
-    controller.onSubmit = onSubmit;
+class ItemDialog extends StatefulWidget {
+  late String title;
+  late Item model;
+  late ValueSetter<Item> onSubmit;
+
+  ItemDialog({required model, required title, required onSubmit}) {
+    this.title = title;
+    this.model = model;
+    this.onSubmit = onSubmit;
   }
 
   static getDialog(context, {required Item item, required String title, required ValueSetter<Item> onSubmit}) {
-    Get.put(DialogController());
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -26,6 +28,28 @@ class ItemDialog extends GetView<DialogController> {
   }
 
   @override
+  _ItemDialogState createState() => _ItemDialogState();
+}
+
+class _ItemDialogState extends State<ItemDialog> {
+  final formKey = GlobalKey<FormState>();
+
+  String? titleValidator(value) {
+    if (value.isEmpty) {
+      return 'Please enter some text';
+    }
+    return null;
+  }
+
+  void submit() {
+    if (formKey.currentState!.validate()) {
+      formKey.currentState!.save();
+      widget.onSubmit.call(widget.model);
+      Get.back();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Dialog(
       shape: RoundedRectangleBorder(
@@ -36,19 +60,19 @@ class ItemDialog extends GetView<DialogController> {
         padding: EdgeInsets.all(20),
         child: Form(
           autovalidateMode: AutovalidateMode.onUserInteraction,
-          key: controller.formKey,
+          key: formKey,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
-                child: Text(controller.title, style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                child: Text(widget.title, style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
               ),
               TextFormField(
                 decoration: InputDecoration(labelText: "Name:"),
-                validator: controller.titleValidator,
-                initialValue: controller.model.name,
-                onSaved: (value) => controller.model.name = value,
+                validator: titleValidator,
+                initialValue: widget.model.name,
+                onSaved: (value) => widget.model.name = value!,
               ),
               Container(
                 alignment: Alignment.centerRight,
@@ -60,7 +84,7 @@ class ItemDialog extends GetView<DialogController> {
                       child: Text("Cancel"),
                     ),
                     ElevatedButton(
-                      onPressed: () => controller.submit(),
+                      onPressed: submit,
                       child: Text("Submit"),
                     )
                   ],
