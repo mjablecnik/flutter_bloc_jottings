@@ -47,27 +47,30 @@ class JottingsListController extends Cubit<JottingsListState> {
   }
 
   _removeFolderItems(Folder folder) async {
-    //for (String itemId in folder.itemIds) {
-    //  if (Item.getTypeFromId(itemId) == ItemType.Folder) {
-    //    var openedFolderController = _openedFolders.where((element) => element.folder.id == itemId);
-    //    Folder item = openedFolderController.isEmpty ? Folder.load(itemId)! : openedFolderController.first.folder;
-    //    this._removeFolderItems(item);
-    //    item.delete();
-    //  } else {
-    //    Item.load(itemId)!.delete();
-    //  }
-    //}
+    for (String itemId in folder.itemIds) {
+      if (Item.getTypeFromId(itemId) == ItemType.Folder) {
+        Folder item = Folder.load(itemId)!;
+        this._removeFolderItems(item);
+        item.delete();
+      } else {
+        Item.load(itemId)!.delete();
+      }
+    }
   }
 
   removeItem(Item item) {
-    //this.items.remove(item);
-    //if (item.runtimeType == Folder) {
-    //  _removeFolderItems(item as Folder);
-    //  _openedFolders.removeWhere((element) => element.folder.id == item.id);
-    //}
-    //_currentFolder.itemIds.remove(item.id);
-    //_currentFolder.save();
-    //_updateListIds();
+    List<Item> items = List.from(state.items)..remove(item);
+    List<String> itemIds = state.folder!.itemIds..remove(item.id);
+
+    if (item.runtimeType == Folder) {
+      _removeFolderItems(item as Folder);
+    }
+
+    Folder folder = state.folder!.copyWith(itemIds: itemIds);
+    emit(JottingsListState.success(folder, items));
+
+    state.folder!.save();
+    _updateListIds();
   }
 
   editItem(Item item) {
