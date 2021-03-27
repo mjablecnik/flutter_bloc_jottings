@@ -79,10 +79,6 @@ class JottingsListController extends Cubit<JottingsListState> {
   }
 
   editItem(Item item) {
-    //int index = state.items.indexWhere((element) => element.id == item.id);
-    //state.items.removeAt(index);
-    //state.items.insert(index, item);
-
     item.save();
     emit(JottingsListState.success(state.folder!, [...state.items]));
   }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
+import 'package:jottings/app/controllers/jottings_list_controller.dart';
 import 'package:jottings/app/models/folder.dart';
 import 'package:jottings/app/models/item.dart';
 import 'package:jottings/app/models/note.dart';
@@ -10,6 +12,8 @@ import 'package:jottings/app/widgets/item_dialog.dart';
 class JottingsItem extends StatelessWidget {
   final Item item;
 
+  final controller = Modular.get<JottingsListController>();
+
   JottingsItem(this.item);
 
   @override
@@ -18,7 +22,7 @@ class JottingsItem extends StatelessWidget {
       actionPane: SlidableScrollActionPane(),
       actionExtentRatio: 0.19,
       child: GestureDetector(
-        onTap: () => this.item.controller!.goInto(item),
+        onTap: () => controller.goInto(item),
         child: _Item(this.item),
       ),
       secondaryActions: <Widget>[
@@ -30,14 +34,14 @@ class JottingsItem extends StatelessWidget {
             context,
             item: item,
             title: "Edit item",
-            onSubmit: (item) => this.item.controller!.editItem(item),
+            onSubmit: (item) => controller.editItem(item),
           ),
         ),
         IconSlideAction(
           caption: 'Remove',
           color: Colors.red,
           icon: Icons.delete,
-          onTap: () => item.controller!.removeItem(item),
+          onTap: () => controller.removeItem(item),
         ),
       ],
     );

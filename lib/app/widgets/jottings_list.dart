@@ -16,32 +16,33 @@ class JottingsList extends StatelessWidget {
   Widget build(context) {
     return BlocBuilder<JottingsListController, JottingsListState>(
       bloc: controller,
-        builder: (context, state) {
-      if (state.items.length > 0) {
-        return ImplicitlyAnimatedReorderableList<Item>(
-          items: state.items,
-          areItemsTheSame: (oldItem, newItem) => oldItem!.id == newItem!.id,
-          onReorderFinished: (item, from, to, newItems) {
-            controller.reorder(from!, to);
-          },
-          itemBuilder: (context, itemAnimation, item, index) {
-            item.controller = controller;
-            return Reorderable(
-              key: ValueKey(item),
-              builder: (context, dragAnimation, inDrag) {
-                return SizeFadeTransition(
-                  sizeFraction: 0.5,
-                  curve: Curves.easeIn,
-                  animation: itemAnimation,
-                  child: JottingsItem(item),
-                );
-              },
-            );
-          },
-        );
-      } else {
-        return Container();
-      }
-    });
+      builder: (context, state) {
+        if (state.items.length > 0) {
+          return ImplicitlyAnimatedReorderableList<Item>(
+            items: state.items,
+            areItemsTheSame: (oldItem, newItem) => oldItem!.id == newItem!.id,
+            onReorderFinished: (item, from, to, newItems) {
+              controller.reorder(from!, to);
+            },
+            itemBuilder: (context, itemAnimation, item, index) {
+              //item.controller = controller;
+              return Reorderable(
+                key: ValueKey(item),
+                builder: (context, dragAnimation, inDrag) {
+                  return SizeFadeTransition(
+                    sizeFraction: 0.5,
+                    curve: Curves.easeIn,
+                    animation: itemAnimation,
+                    child: JottingsItem(item),
+                  );
+                },
+              );
+            },
+          );
+        } else {
+          return Container();
+        }
+      },
+    );
   }
 }

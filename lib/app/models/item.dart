@@ -20,8 +20,6 @@ abstract class Item {
   @HiveField(4)
   DateTime? lastChange = DateTime.now();
 
-  JottingsListController? controller;
-
   get path => [...this.dirPath!, name].join("/");
 
   final HashIds _hashids = HashIds(
