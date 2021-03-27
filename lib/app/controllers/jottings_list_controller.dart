@@ -38,12 +38,17 @@ class JottingsListController extends Cubit<JottingsListState> {
   }
 
   addItem(Item item) async {
-    //item.dirPath = [...state.currentFolder.dirPath!, state.currentFolder.name];
-    //emit(JottingsListState.success(state.currentFolder, [...state.items, item]));
-    //item.save();
-    //state.currentFolder.itemIds.add(item.id!);
-    //state.currentFolder.save();
-    //_updateListIds();
+    item.dirPath = [...state.folder!.dirPath!, state.folder!.name];
+    List<String> itemIds = [...state.folder!.itemIds, item.id!];
+
+    emit(JottingsListState.success(
+      state.folder!.copyWith(itemIds: itemIds),
+      [...state.items, item],
+    ));
+
+    item.save();
+    state.folder!.save();
+    _updateListIds();
   }
 
   _removeFolderItems(Folder folder) async {
