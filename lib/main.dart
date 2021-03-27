@@ -8,7 +8,7 @@ import 'package:jottings/app/models/note.dart';
 import 'package:jottings/app/pages/main_page.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
-
+import 'package:flutter_modular/flutter_modular.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,10 +26,28 @@ Future<void> main() async {
   await Hive.openBox<TodoList>(ItemType.TodoList.toString());
   await Hive.openBox<Folder>(ItemType.Folder.toString());
 
-
   runApp(
-    MaterialApp(
-      home: JottingsListPage(JottingsListController(Folder.root())),
+    ModularApp(
+      module: AppModule(),
+      child: MaterialApp(
+        initialRoute: '/jottingsList/${Folder.root().id}/',
+      ).modular(),
     ),
   );
+}
+
+class AppModule extends Module {
+
+  @override
+  final List<Bind> binds = [
+    Bind.factory((i) => JottingsListController(i.args!.params['id'])),
+  ];
+
+  @override
+  final List<ModularRoute> routes = [
+    ChildRoute(
+      '/jottingsList/:id/',
+      child: (_, args) => JottingsListPage(args.params['id']),
+    ),
+  ];
 }

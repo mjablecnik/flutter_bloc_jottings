@@ -3,37 +3,38 @@ import 'package:hive/hive.dart';
 import 'package:jottings/app/common/constants.dart';
 import 'package:jottings/app/models/folder.dart';
 import 'package:jottings/app/models/item.dart';
-import 'package:jottings/app/pages/main_page.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 enum Status { loading, success, failure }
 
 class JottingsListState {
-  const JottingsListState._(this.currentFolder, {
+  const JottingsListState._({
+    this.folder,
     this.status = Status.loading,
     this.items = const <Item>[],
   });
 
-  const JottingsListState.loading(Folder currentFolder) : this._(currentFolder);
+  const JottingsListState.loading() : this._();
 
-  const JottingsListState.success(Folder currentFolder, List<Item> items)
-      : this._(currentFolder, status: Status.success, items: items);
+  const JottingsListState.success(Folder folder, List<Item> items)
+      : this._(folder: folder, status: Status.success, items: items);
 
-  const JottingsListState.failure(Folder currentFolder)
-      : this._(currentFolder, status: Status.failure);
+  const JottingsListState.failure() : this._(status: Status.failure);
 
   final Status status;
   final List<Item> items;
-  final Folder currentFolder;
+  final Folder? folder;
 }
 
 class JottingsListController extends Cubit<JottingsListState> {
-
   Box _box = Hive.box(BoxStorage.jottingsListIds);
 
-  String _getCurrentFolderListKey() => "folder_list_ids:${state.currentFolder.id}";
+  final folderId;
 
-  JottingsListController(currentFolder) : super(JottingsListState.loading(currentFolder)) {
-    load();
+  String _getCurrentFolderListKey() => "folder_list_ids:$folderId";
+
+  JottingsListController(this.folderId) : super(JottingsListState.loading()) {
+    load(folderId);
   }
 
   addItem(Item item) async {
@@ -75,7 +76,7 @@ class JottingsListController extends Cubit<JottingsListState> {
     //state.items.insert(index, item);
 
     item.save();
-    emit(JottingsListState.success(state.currentFolder, [...state.items]));
+    emit(JottingsListState.success(state.folder!, [...state.items]));
   }
 
   reorder(int oldIndex, int newIndex) {
@@ -89,8 +90,8 @@ class JottingsListController extends Cubit<JottingsListState> {
     _box.put(_getCurrentFolderListKey(), idsList);
   }
 
-  Folder _loadCurrentFolder() {
-    Folder? folder = Folder.load(state.currentFolder.id!);
+  Folder _loadFolder(String id) {
+    Folder? folder = Folder.load(id);
 
     if (folder != null) {
       return folder;
@@ -99,9 +100,9 @@ class JottingsListController extends Cubit<JottingsListState> {
     }
   }
 
-  load() {
+  load(String folderId) {
     List<Item> items = [];
-    Folder currentFolder = _loadCurrentFolder();
+    Folder currentFolder = _loadFolder(folderId);
 
     List<String> jottingsListIds = List.from(_box.get(_getCurrentFolderListKey()) ?? []);
     currentFolder.itemIds = jottingsListIds;
@@ -112,20 +113,8 @@ class JottingsListController extends Cubit<JottingsListState> {
   }
 
   goInto(Item item) {
-    //if (item.runtimeType == Folder) {
-    //  late var folder;
-    //  var folderList = _openedFolders.where((e) => e.id == item.id);
-    //  if (folderList.isEmpty) {
-    //    folder = JottingsListController(item);
-    //    _openedFolders.add(folder);
-    //  } else {
-    //    folder = folderList.first;
-    //  }
-    //  Get.to(
-    //    () => JottingsListPage(folder!),
-    //    preventDuplicates: false,
-    //    duration: Duration(seconds: 0),
-    //  );
-    //}
+    if (item.runtimeType == Folder) {
+      Modular.to.pushNamed('/jottingsList/${item.id}/');
+    }
   }
 }
