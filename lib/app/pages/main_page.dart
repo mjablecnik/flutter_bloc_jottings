@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:get/get.dart';
 import 'package:jottings/app/common/constants.dart';
 import 'package:jottings/app/controllers/jottings_list_controller.dart';
 import 'package:jottings/app/models/folder.dart';
@@ -18,7 +17,7 @@ class JottingsListPage extends StatelessWidget {
   @override
   Widget build(context) {
     return Scaffold(
-      appBar: AppBar(centerTitle: true, title: Text(controller.folder.path)),
+      appBar: AppBar(centerTitle: true, title: Text(controller.state.currentFolder.path)),
       body: JottingsList(controller),
       bottomNavigationBar: BottomNavigationBar(
         unselectedItemColor: Colors.blue,

@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:jottings/app/models/item.dart';
 
 class ItemDialog extends StatefulWidget {
@@ -45,7 +44,7 @@ class _ItemDialogState extends State<ItemDialog> {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
       widget.onSubmit.call(widget.model);
-      Get.back();
+      Navigator.pop(context);
     }
   }
 

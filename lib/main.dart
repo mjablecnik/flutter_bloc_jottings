@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:get/get.dart';
 import 'package:jottings/app/common/constants.dart';
 import 'package:jottings/app/controllers/jottings_list_controller.dart';
 import 'package:jottings/app/models/todo.dart';
@@ -29,8 +28,7 @@ Future<void> main() async {
 
 
   runApp(
-    GetMaterialApp(
-      smartManagement: SmartManagement.full,
+    MaterialApp(
       home: JottingsListPage(JottingsListController(Folder.root())),
     ),
   );
