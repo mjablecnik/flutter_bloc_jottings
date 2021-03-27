@@ -57,9 +57,9 @@ class JottingsListController extends GetxController {
   }
 
   editItem(Item item) {
-    var changedItem = items.where((element) => element.value!.id == item.id).first;
+    var changedItem = items.where((element) => element.value.id == item.id).first;
     changedItem(item);
-    changedItem.value!.save();
+    changedItem.value.save();
   }
 
   reorder(int oldIndex, int newIndex) {
@@ -69,7 +69,7 @@ class JottingsListController extends GetxController {
   }
 
   _updateListIds() {
-    var idsList = items.map((e) => e.value!.id).toList();
+    var idsList = items.map((e) => e.value.id).toList();
     _box.put(_getCurrentFolderListKey(), idsList);
   }
 

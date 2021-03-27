@@ -19,7 +19,7 @@ class JottingsItem extends StatelessWidget {
       actionPane: SlidableScrollActionPane(),
       actionExtentRatio: 0.19,
       child: GestureDetector(
-        onTap: () => this.item.value!.controller!.goInto(item.value!),
+        onTap: () => this.item.value.controller!.goInto(item.value),
         child: _Item(this.item),
       ),
       secondaryActions: <Widget>[
@@ -29,16 +29,16 @@ class JottingsItem extends StatelessWidget {
           icon: Icons.edit,
           onTap: () => ItemDialog.getDialog(
             context,
-            item: item.value!,
+            item: item.value,
             title: "Edit item",
-            onSubmit: (item) => this.item.value!.controller!.editItem(item),
+            onSubmit: (item) => this.item.value.controller!.editItem(item),
           ),
         ),
         IconSlideAction(
           caption: 'Remove',
           color: Colors.red,
           icon: Icons.delete,
-          onTap: () => item.value!.controller!.removeItem(item.value!),
+          onTap: () => item.value.controller!.removeItem(item.value),
         ),
       ],
     );
@@ -73,14 +73,14 @@ class _Item extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: _getIcon(item.value!),
+                child: _getIcon(item.value),
               ),
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.only(left: 8.0),
                   child: Obx(
                     () => Text(
-                      item.value!.name,
+                      item.value.name,
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 18,
