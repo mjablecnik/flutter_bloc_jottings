@@ -33,7 +33,8 @@ class Folder extends Item {
     box.delete(id);
   }
 
-  copyWith({List<String>? itemIds}) {
+  @override
+  copy() {
     return Folder(
       name,
       id: id,
@@ -41,7 +42,11 @@ class Folder extends Item {
       lastChange: lastChange,
       dirPath: dirPath,
       isRoot: isRoot,
-    )..itemIds = itemIds ?? this.itemIds;
+    )..itemIds = itemIds;
+  }
+
+  copyWith({List<String>? itemIds}) {
+    return this.copy()..itemIds = itemIds ?? this.itemIds;
   }
 
   static Folder root() {

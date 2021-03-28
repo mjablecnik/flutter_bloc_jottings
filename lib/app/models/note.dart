@@ -32,6 +32,17 @@ class Note extends Item {
     box.delete(id);
   }
 
+  @override
+  copy() {
+    return Note(
+      name,
+      id: id,
+      created: created,
+      lastChange: lastChange,
+      dirPath: dirPath,
+    )..content = content;
+  }
+
   static Note? load(String id) {
     return Item.load(id) as Note?;
   }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
 import 'package:jottings/app/controllers/jottings_list_controller.dart';
@@ -9,12 +9,18 @@ import 'package:jottings/app/models/note.dart';
 import 'package:jottings/app/models/todo.dart';
 import 'package:jottings/app/widgets/item_dialog.dart';
 
+_nameIsChanged(previous, current, item) {
+  Item prevItem = previous.items.firstWhere((element) => element.id == item.id);
+  Item currItem = current.items.firstWhere((element) => element.id == item.id);
+  return prevItem.name != currItem.name;
+}
+
 class JottingsItem extends StatelessWidget {
   final Item item;
 
-  final controller = Modular.get<JottingsListController>();
+  final JottingsListController controller;
 
-  JottingsItem(this.item);
+  JottingsItem(this.controller, this.item);
 
   @override
   Widget build(BuildContext context) {
@@ -23,18 +29,22 @@ class JottingsItem extends StatelessWidget {
       actionExtentRatio: 0.19,
       child: GestureDetector(
         onTap: () => controller.goInto(item),
-        child: _Item(this.item),
+        child: _Item(controller, this.item),
       ),
       secondaryActions: <Widget>[
-        IconSlideAction(
-          caption: 'Edit',
-          color: Colors.blue,
-          icon: Icons.edit,
-          onTap: () => ItemDialog.getDialog(
-            context,
-            item: item,
-            title: "Edit item",
-            onSubmit: (item) => controller.editItem(item),
+        BlocBuilder<JottingsListController, JottingsListState>(
+          buildWhen: (previous, current) => _nameIsChanged(previous, current, item),
+          bloc: controller,
+          builder: (context, state) => IconSlideAction(
+            caption: 'Edit',
+            color: Colors.blue,
+            icon: Icons.edit,
+            onTap: () => ItemDialog.getDialog(
+              context,
+              item: state.items.firstWhere((element) => element.id == item.id).copy(),
+              title: "Edit item",
+              onSubmit: (item) => controller.editItem(item),
+            ),
           ),
         ),
         IconSlideAction(
@@ -49,9 +59,11 @@ class JottingsItem extends StatelessWidget {
 }
 
 class _Item extends StatelessWidget {
-  const _Item(this.item);
+  _Item(this.controller, this.item);
 
   final Item item;
+
+  final JottingsListController controller;
 
   Icon _getIcon(Item item) {
     switch (item.runtimeType) {
@@ -81,11 +93,15 @@ class _Item extends StatelessWidget {
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.only(left: 8.0),
-                  child: Text(
-                    item.name,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 18,
+                  child: BlocBuilder<JottingsListController, JottingsListState>(
+                    buildWhen: (previous, current) => _nameIsChanged(previous, current, item),
+                    bloc: controller,
+                    builder: (context, state) => Text(
+                      state.items.firstWhere((element) => element.id == item.id).name,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 18,
+                      ),
                     ),
                   ),
                 ),

@@ -15,6 +15,7 @@ class JottingsList extends StatelessWidget {
   @override
   Widget build(context) {
     return BlocBuilder<JottingsListController, JottingsListState>(
+      buildWhen: (previous, current) => previous.items.length != current.items.length,
       bloc: controller,
       builder: (context, state) {
         if (state.items.length > 0) {
@@ -25,7 +26,6 @@ class JottingsList extends StatelessWidget {
               controller.reorder(from!, to);
             },
             itemBuilder: (context, itemAnimation, item, index) {
-              //item.controller = controller;
               return Reorderable(
                 key: ValueKey(item),
                 builder: (context, dragAnimation, inDrag) {
@@ -33,7 +33,7 @@ class JottingsList extends StatelessWidget {
                     sizeFraction: 0.5,
                     curve: Curves.easeIn,
                     animation: itemAnimation,
-                    child: JottingsItem(item),
+                    child: JottingsItem(controller, item),
                   );
                 },
               );

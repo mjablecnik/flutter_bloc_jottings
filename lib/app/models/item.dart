@@ -51,6 +51,8 @@ abstract class Item {
     return this.runtimeType.toString() + "_" + _hashids.encode(id);
   }
 
+  copy() {}
+
   save() {}
 
   delete() {}

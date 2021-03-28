@@ -32,6 +32,17 @@ class TodoList extends Item {
     box.delete(id);
   }
 
+  @override
+  copy() {
+    return TodoList(
+      name,
+      id: id,
+      created: created,
+      lastChange: lastChange,
+      dirPath: dirPath,
+    )..items = items;
+  }
+
   static TodoList? load(String id) {
     return Item.load(id) as TodoList?;
   }
