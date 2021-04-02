@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:jottings/app/controllers/item_dialog_controller.dart';
 import 'package:jottings/app/models/item.dart';
 
 class ItemDialog extends StatefulWidget {
@@ -29,25 +30,6 @@ class ItemDialog extends StatefulWidget {
 
   @override
   _ItemDialogState createState() => _ItemDialogState();
-}
-
-class ItemDialogController {
-  final formKey = GlobalKey<FormState>();
-
-  String? titleValidator(value) {
-    if (value.isEmpty) {
-      return 'Please enter some text';
-    }
-    return null;
-  }
-
-  void submit(context, widget) {
-    if (this.formKey.currentState!.validate()) {
-      this.formKey.currentState!.save();
-      widget.onSubmit.call(widget.model);
-      Navigator.pop(context);
-    }
-  }
 }
 
 class _ItemDialogState extends ModularState<ItemDialog, ItemDialogController> {
