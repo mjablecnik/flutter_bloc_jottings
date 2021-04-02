@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:jottings/app/models/item.dart';
 
 class ItemDialog extends StatefulWidget {
@@ -30,7 +31,7 @@ class ItemDialog extends StatefulWidget {
   _ItemDialogState createState() => _ItemDialogState();
 }
 
-class _ItemDialogState extends State<ItemDialog> {
+class ItemDialogController {
   final formKey = GlobalKey<FormState>();
 
   String? titleValidator(value) {
@@ -40,13 +41,16 @@ class _ItemDialogState extends State<ItemDialog> {
     return null;
   }
 
-  void submit() {
-    if (formKey.currentState!.validate()) {
-      formKey.currentState!.save();
+  void submit(context, widget) {
+    if (this.formKey.currentState!.validate()) {
+      this.formKey.currentState!.save();
       widget.onSubmit.call(widget.model);
       Navigator.pop(context);
     }
   }
+}
+
+class _ItemDialogState extends ModularState<ItemDialog, ItemDialogController> {
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +63,7 @@ class _ItemDialogState extends State<ItemDialog> {
         padding: EdgeInsets.all(20),
         child: Form(
           autovalidateMode: AutovalidateMode.onUserInteraction,
-          key: formKey,
+          key: controller.formKey,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -69,7 +73,7 @@ class _ItemDialogState extends State<ItemDialog> {
               ),
               TextFormField(
                 decoration: InputDecoration(labelText: "Name:"),
-                validator: titleValidator,
+                validator: controller.titleValidator,
                 initialValue: widget.model.name,
                 onSaved: (value) => widget.model.name = value!,
               ),
@@ -83,7 +87,7 @@ class _ItemDialogState extends State<ItemDialog> {
                       child: Text("Cancel"),
                     ),
                     ElevatedButton(
-                      onPressed: submit,
+                      onPressed: () => controller.submit(context, widget),
                       child: Text("Submit"),
                     )
                   ],

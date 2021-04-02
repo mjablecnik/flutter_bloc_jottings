@@ -7,6 +7,7 @@ import 'package:jottings/app/models/folder.dart';
 import 'package:jottings/app/models/note.dart';
 import 'package:jottings/app/pages/main_page.dart';
 import 'package:hive/hive.dart';
+import 'package:jottings/app/widgets/item_dialog.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
@@ -41,6 +42,7 @@ class AppModule extends Module {
   @override
   final List<Bind> binds = [
     Bind.factory((i) => JottingsListController(i.args!.params['id'])),
+    Bind((i) => ItemDialogController()),
   ];
 
   @override
