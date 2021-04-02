@@ -10,9 +10,13 @@ import 'package:jottings/app/models/todo.dart';
 import 'package:jottings/app/widgets/item_dialog.dart';
 
 _nameIsChanged(previous, current, item) {
-  Item prevItem = previous.items.firstWhere((element) => element.id == item.id);
-  Item currItem = current.items.firstWhere((element) => element.id == item.id);
-  return prevItem.name != currItem.name;
+  try {
+    Item prevItem = previous.items.firstWhere((element) => element.id == item.id);
+    Item currItem = current.items.firstWhere((element) => element.id == item.id);
+    return prevItem.name != currItem.name;
+  } catch (e) {
+    return false;
+  }
 }
 
 class JottingsItem extends StatelessWidget {
@@ -96,13 +100,16 @@ class _Item extends StatelessWidget {
                   child: BlocBuilder<JottingsListController, JottingsListState>(
                     buildWhen: (previous, current) => _nameIsChanged(previous, current, item),
                     bloc: controller,
-                    builder: (context, state) => Text(
-                      state.items.firstWhere((element) => element.id == item.id).name,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 18,
-                      ),
-                    ),
+                    builder: (context, state) {
+                      var currentItemList = state.items.where((element) => element.id == item.id);
+                      return currentItemList.isEmpty ? Container() : Text(
+                        state.items.firstWhere((element) => element.id == item.id).name,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 18,
+                        ),
+                      );
+                    },
                   ),
                 ),
               ),
