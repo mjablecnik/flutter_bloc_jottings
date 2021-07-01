@@ -21,7 +21,7 @@ class JottingsList extends StatelessWidget {
         if (state.items.length > 0) {
           return ImplicitlyAnimatedReorderableList<Item>(
             items: state.items,
-            areItemsTheSame: (oldItem, newItem) => oldItem!.id == newItem!.id,
+            areItemsTheSame: (oldItem, newItem) => oldItem.id == newItem.id,
             onReorderFinished: (item, from, to, newItems) {
               controller.reorder(from!, to);
             },
