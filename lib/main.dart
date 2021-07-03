@@ -4,6 +4,7 @@ import 'package:jottings/app/common/constants.dart';
 import 'package:jottings/app/controllers/item_dialog_controller.dart';
 import 'package:jottings/app/controllers/jottings_list_controller.dart';
 import 'package:jottings/app/controllers/note_controller.dart';
+import 'package:jottings/app/controllers/todo_list_controller.dart';
 import 'package:jottings/app/models/item.dart';
 import 'package:jottings/app/models/todo.dart';
 import 'package:jottings/app/models/folder.dart';
@@ -11,6 +12,7 @@ import 'package:jottings/app/models/note.dart';
 import 'package:jottings/app/pages/note_page.dart';
 import 'package:jottings/app/pages/main_page.dart';
 import 'package:hive/hive.dart';
+import 'package:jottings/app/pages/todo_list_page.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
@@ -44,9 +46,10 @@ class AppModule extends Module {
 
   @override
   final List<Bind> binds = [
-    Bind.factory((i) => JottingsListController(i.args!.params['id'])),
     Bind((i) => ItemDialogController()),
+    Bind.factory((i) => JottingsListController(i.args!.params['id'])),
     Bind.factory((i) => NoteController(i.args!.params['id'])),
+    Bind.factory((i) => TodoListController(i.args!.params['id'])),
   ];
 
   @override
@@ -58,6 +61,10 @@ class AppModule extends Module {
     ChildRoute(
       '/note/:id/',
       child: (_, args) => NotePage(args.params['id']),
+    ),
+    ChildRoute(
+      '/todoList/:id/',
+      child: (_, args) => TodoListPage(args.params['id']),
     ),
   ];
 }

@@ -127,7 +127,7 @@ class JottingsListController extends Cubit<JottingsListState> {
     switch (item.runtimeType) {
       case Note: Modular.to.pushNamed('/note/${item.id}/'); break;
       case Folder: Modular.to.pushNamed('/jottingsList/${item.id}/'); break;
-      case TodoList: break;
+      case TodoList: Modular.to.pushNamed('/todoList/${item.id}/'); break;
     }
   }
 }
