@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:jottings/app/common/constants.dart';
 import 'package:jottings/app/controllers/item_dialog_controller.dart';
 import 'package:jottings/app/controllers/jottings_list_controller.dart';
+import 'package:jottings/app/controllers/note_controller.dart';
+import 'package:jottings/app/models/item.dart';
 import 'package:jottings/app/models/todo.dart';
 import 'package:jottings/app/models/folder.dart';
 import 'package:jottings/app/models/note.dart';
+import 'package:jottings/app/pages/note_page.dart';
 import 'package:jottings/app/pages/main_page.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
@@ -43,6 +46,7 @@ class AppModule extends Module {
   final List<Bind> binds = [
     Bind.factory((i) => JottingsListController(i.args!.params['id'])),
     Bind((i) => ItemDialogController()),
+    Bind.factory((i) => NoteController(i.args!.params['id'])),
   ];
 
   @override
@@ -50,6 +54,10 @@ class AppModule extends Module {
     ChildRoute(
       '/jottingsList/:id/',
       child: (_, args) => JottingsListPage(args.params['id']),
+    ),
+    ChildRoute(
+      '/note/:id/',
+      child: (_, args) => NotePage(args.params['id']),
     ),
   ];
 }

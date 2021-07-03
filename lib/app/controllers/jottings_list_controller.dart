@@ -4,6 +4,8 @@ import 'package:jottings/app/common/constants.dart';
 import 'package:jottings/app/models/folder.dart';
 import 'package:jottings/app/models/item.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:jottings/app/models/note.dart';
+import 'package:jottings/app/models/todo.dart';
 
 enum Status { loading, success, failure }
 
@@ -34,7 +36,9 @@ class JottingsListController extends Cubit<JottingsListState> {
   String _getCurrentFolderListKey() => "folder_list_ids:$folderId";
 
   JottingsListController(this.folderId) : super(JottingsListState.loading()) {
-    load(folderId);
+    if (Item.getTypeFromId(folderId) == ItemType.Folder) {
+      load(folderId);
+    }
   }
 
   addItem(Item item) async {
@@ -120,8 +124,10 @@ class JottingsListController extends Cubit<JottingsListState> {
   }
 
   goInto(Item item) {
-    if (item.runtimeType == Folder) {
-      Modular.to.pushNamed('/jottingsList/${item.id}/');
+    switch (item.runtimeType) {
+      case Note: Modular.to.pushNamed('/note/${item.id}/'); break;
+      case Folder: Modular.to.pushNamed('/jottingsList/${item.id}/'); break;
+      case TodoList: break;
     }
   }
 }
