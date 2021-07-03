@@ -1,4 +1,5 @@
 enum ItemType { Folder, TodoList, Note }
+enum Status { loading, success, failure }
 
 const pathSeparator = "/";
 const rootFolderName = "root";
@@ -10,9 +11,9 @@ class BoxStorage {
   static const idCounter = 'id_counter';
 }
 
-
 class Texts {
   static const addNoteItem = "Add note";
   static const addTodoListItem = "Add todo list";
   static const addFolderItem = "Add folder";
+  static const saveSnackBar = "Saved";
 }

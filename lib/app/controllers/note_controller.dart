@@ -7,7 +7,6 @@ import 'package:jottings/app/common/constants.dart';
 import 'package:jottings/app/models/item.dart';
 import 'package:jottings/app/models/note.dart';
 
-enum Status { loading, success, failure }
 
 class NoteState {
   const NoteState._({
@@ -26,6 +25,7 @@ class NoteState {
   final Note? note;
   final String? errorMessage;
 }
+
 
 class NoteController extends Cubit<NoteState> {
   final noteId;

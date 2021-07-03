@@ -7,7 +7,6 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:jottings/app/models/note.dart';
 import 'package:jottings/app/models/todo.dart';
 
-enum Status { loading, success, failure }
 
 class JottingsListState {
   const JottingsListState._({
@@ -27,6 +26,7 @@ class JottingsListState {
   final List<Item> items;
   final Folder? folder;
 }
+
 
 class JottingsListController extends Cubit<JottingsListState> {
   Box _box = Hive.box(BoxStorage.jottingsListIds);

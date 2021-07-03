@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_quill/widgets/editor.dart';
 import 'package:flutter_quill/widgets/toolbar.dart';
+import 'package:jottings/app/common/constants.dart';
 import 'package:jottings/app/controllers/note_controller.dart';
 
 class NotePage extends StatelessWidget {
@@ -25,7 +26,7 @@ class NotePage extends StatelessWidget {
               controller.save(controller.state.note);
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
-                  content: Text('Saved'),
+                  content: Text(Texts.saveSnackBar),
                 ),
               );
             },
