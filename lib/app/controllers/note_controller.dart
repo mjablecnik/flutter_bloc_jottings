@@ -30,7 +30,7 @@ class NoteState {
 class NoteController extends Cubit<NoteState> {
   final noteId;
 
-  late final editor;
+  late final QuillController editor;
 
   NoteController(this.noteId) : super(NoteState.loading()) {
     if (Item.getTypeFromId(noteId) == ItemType.Note) {
@@ -47,9 +47,10 @@ class NoteController extends Cubit<NoteState> {
     var note = Note.load(noteId);
     try {
       var json = jsonDecode(note!.content);
+      var document = Document.fromJson(json);
       editor = QuillController(
-        document: Document.fromJson(json),
-        selection: TextSelection.collapsed(offset: 0),
+        document: document,
+        selection: TextSelection.collapsed(offset: document.length-1),
       );
     } catch (e) {
       editor = QuillController.basic();
