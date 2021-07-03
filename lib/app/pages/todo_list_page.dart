@@ -25,10 +25,63 @@ class TodoListPage extends StatelessWidget {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          Text("Todo list:")
-        ],
+      body: Padding(
+        padding: EdgeInsets.symmetric(vertical: 16),
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.fromLTRB(16, 8, 16, 16),
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "Todo list:",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+              ),
+            ),
+            Expanded(
+              child: ListView(
+                children: [
+                  Todo("Todo1"),
+                  Todo("Todo2"),
+                  Todo("Todo3"),
+                  Todo("Todo4"),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class Todo extends StatelessWidget {
+  String text;
+
+  Todo(
+    this.text, {
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+        child: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 12),
+              child: const Icon(Icons.check_box_outline_blank),
+            ),
+            Expanded(
+              child: Text(
+                text,
+                style: const TextStyle(fontSize: 16),
+              ),
+            ),
+            const Icon(Icons.drag_indicator),
+          ],
+        ),
       ),
     );
   }
