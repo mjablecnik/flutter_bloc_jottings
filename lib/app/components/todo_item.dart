@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:jottings/app/models/todo.dart' as todo;
 
 class TodoItem extends StatelessWidget {
-  String text;
+  todo.TodoItem item;
 
   TodoItem(
-      this.text, {
+      this.item, {
         Key? key,
       }) : super(key: key);
 
@@ -21,7 +22,7 @@ class TodoItem extends StatelessWidget {
             ),
             Expanded(
               child: Text(
-                text,
+                item.text,
                 style: const TextStyle(fontSize: 16),
               ),
             ),

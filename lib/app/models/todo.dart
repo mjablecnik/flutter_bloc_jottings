@@ -52,10 +52,10 @@ class TodoList extends Item {
 class TodoItem {
 
   @HiveField(0)
-  String name;
+  String text;
 
   @HiveField(1)
-  String checked;
+  bool checked;
 
-  TodoItem(this.name, this.checked);
+  TodoItem(this.text, this.checked);
 }

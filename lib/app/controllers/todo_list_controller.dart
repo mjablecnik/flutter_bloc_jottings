@@ -1,11 +1,6 @@
-import 'dart:convert';
-
-import 'package:flutter/painting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_quill/flutter_quill.dart';
 import 'package:jottings/app/common/constants.dart';
 import 'package:jottings/app/models/item.dart';
-import 'package:jottings/app/models/note.dart';
 import 'package:jottings/app/models/todo.dart';
 
 
@@ -37,8 +32,25 @@ class TodoListController extends Cubit<TodoListState> {
     }
   }
 
-  save(todoList) {
-    todoList.save();
+  addTodo(String text) {
+    if (text.isNotEmpty) {
+      state.todoList!.items = [...state.todoList!.items, TodoItem(text, false)];
+      state.todoList!.save();
+      emit(TodoListState.success(state.todoList!.copy()));
+    }
+  }
+
+  removeTodo(TodoItem todoItem) {
+    state.todoList!.items.remove(todoItem);
+    state.todoList!.save();
+  }
+
+  toggleTodo(TodoItem todoItem) {
+    // TODO: Not implemented
+  }
+
+  reorder(int oldIndex, int newIndex) {
+    // TODO: Not implemented
   }
 
   load() {

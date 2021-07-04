@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:jottings/app/components/todo_item.dart';
 import 'package:jottings/app/components/todo_list_bottom_bar.dart';
@@ -30,25 +31,28 @@ class TodoListPage extends StatelessWidget {
       body: Column(
         children: [
           Expanded(
-            child: ListView(
-              children: [
-                Container(
-                  padding: EdgeInsets.fromLTRB(16, 24, 16, 8),
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Todo list:",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-                  ),
-                ),
-                TodoItem("Todo1"),
-                TodoItem("Todo2"),
-                TodoItem("Todo3"),
-                TodoItem("Todo4"),
-                TodoItem("Todo1"),
-                TodoItem("Todo2"),
-                TodoItem("Todo3"),
-                TodoItem("Todo4"),
-              ],
+            child: BlocBuilder<TodoListController, TodoListState>(
+              bloc: controller,
+              builder: (context, state) {
+                return ListView(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.fromLTRB(16, 24, 16, 8),
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Todo list:",
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                    for (var item in state.todoList!.items)
+                      Dismissible(
+                        key: GlobalKey(),
+                        child: TodoItem(item),
+                        onDismissed: (direction) => controller.removeTodo(item),
+                      )
+                  ],
+                );
+              },
             ),
           )
         ],
@@ -56,11 +60,9 @@ class TodoListPage extends StatelessWidget {
       bottomNavigationBar: BottomAppBar(
         child: Padding(
           padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-          child: TodoListBottomBar(),
+          child: TodoListBottomBar(controller),
         ),
       ),
     );
   }
 }
-
-

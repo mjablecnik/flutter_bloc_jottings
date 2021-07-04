@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:jottings/app/controllers/todo_list_controller.dart';
 
 class TodoListBottomBar extends StatelessWidget {
-  const TodoListBottomBar({
+  final TodoListController controller;
+  final TextEditingController inputFieldController = TextEditingController();
+
+  TodoListBottomBar(
+    this.controller, {
     Key? key,
   }) : super(key: key);
 
@@ -29,13 +34,24 @@ class TodoListBottomBar extends StatelessWidget {
                     ),
                     contentPadding: EdgeInsets.symmetric(horizontal: 16),
                   ),
+                  controller: inputFieldController,
+                  onSubmitted: (text) => controller.addTodo(text),
                 ),
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Icon(Icons.send, color: Theme.of(context).bottomAppBarColor,),
+          GestureDetector(
+            onTap: () {
+              controller.addTodo(inputFieldController.text);
+              FocusManager.instance.primaryFocus?.unfocus();
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Icon(
+                Icons.send,
+                color: Theme.of(context).bottomAppBarColor,
+              ),
+            ),
           )
         ],
       ),
