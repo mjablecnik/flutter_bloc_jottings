@@ -53,7 +53,7 @@ class TodoListPage extends StatelessWidget {
                           animation: itemAnimation,
                           child: Dismissible(
                             key: GlobalKey(),
-                            child: TodoItem(item),
+                            child: TodoItem(item, controller: controller),
                             onDismissed: (direction) => controller.removeTodo(item),
                           ),
                         );

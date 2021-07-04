@@ -3,7 +3,6 @@ import 'package:jottings/app/common/constants.dart';
 import 'package:jottings/app/models/item.dart';
 import 'package:jottings/app/models/todo.dart';
 
-
 class TodoListState {
   const TodoListState._({
     this.todoList,
@@ -22,7 +21,6 @@ class TodoListState {
   final String? errorMessage;
 }
 
-
 class TodoListController extends Cubit<TodoListState> {
   final todoListId;
 
@@ -34,9 +32,9 @@ class TodoListController extends Cubit<TodoListState> {
 
   addTodo(String text) {
     if (text.isNotEmpty) {
-      state.todoList!.items = [...state.todoList!.items, TodoItem(text, false)];
+      state.todoList!.items = [TodoItem(text, false), ...state.todoList!.items];
       state.todoList!.save();
-      emit(TodoListState.success(state.todoList!.copy()));
+      emit(TodoListState.success(state.todoList!));
     }
   }
 
@@ -46,7 +44,13 @@ class TodoListController extends Cubit<TodoListState> {
   }
 
   toggleTodo(TodoItem todoItem) {
-    // TODO: Not implemented
+    todoItem.checked = !todoItem.checked;
+    state.todoList!.items = [
+      ...state.todoList!.items.where((element) => !element.checked),
+      ...state.todoList!.items.where((element) => element.checked)
+    ];
+    state.todoList!.save();
+    emit(TodoListState.success(state.todoList!));
   }
 
   reorder(int oldIndex, int newIndex) {
