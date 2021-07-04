@@ -25,29 +25,68 @@ class TodoListPage extends StatelessWidget {
           ),
         ],
       ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(vertical: 16),
-        child: Column(
-          children: [
-            Container(
-              padding: EdgeInsets.fromLTRB(16, 8, 16, 16),
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "Todo list:",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-              ),
+      body: Column(
+        children: [
+          Container(
+            padding: EdgeInsets.fromLTRB(16, 24, 16, 8),
+            alignment: Alignment.centerLeft,
+            child: Text(
+              "Todo list:",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
             ),
-            Expanded(
-              child: ListView(
-                children: [
-                  Todo("Todo1"),
-                  Todo("Todo2"),
-                  Todo("Todo3"),
-                  Todo("Todo4"),
-                ],
-              ),
-            )
-          ],
+          ),
+          Expanded(
+            child: ListView(
+              children: [
+                Todo("Todo1"),
+                Todo("Todo2"),
+                Todo("Todo3"),
+                Todo("Todo4"),
+                Todo("Todo1"),
+                Todo("Todo2"),
+                Todo("Todo3"),
+                Todo("Todo4"),
+              ],
+            ),
+          )
+        ],
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: Padding(
+          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          child: Container(
+            color: Theme.of(context).primaryColor,
+            child: Row(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 6.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(30),
+                        ),
+                      ),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          hintText: "Add todo..",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                          ),
+                          contentPadding: EdgeInsets.symmetric(horizontal: 16),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Icon(Icons.send, color: Theme.of(context).bottomAppBarColor,),
+                )
+              ],
+            ),
+          ),
         ),
       ),
     );
