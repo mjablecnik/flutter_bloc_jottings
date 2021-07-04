@@ -27,17 +27,17 @@ class TodoListPage extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Container(
-            padding: EdgeInsets.fromLTRB(16, 24, 16, 8),
-            alignment: Alignment.centerLeft,
-            child: Text(
-              "Todo list:",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-            ),
-          ),
           Expanded(
             child: ListView(
               children: [
+                Container(
+                  padding: EdgeInsets.fromLTRB(16, 24, 16, 8),
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Todo list:",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                  ),
+                ),
                 Todo("Todo1"),
                 Todo("Todo2"),
                 Todo("Todo3"),
