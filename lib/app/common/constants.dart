@@ -2,7 +2,7 @@ enum ItemType { Folder, TodoList, Note }
 enum Status { loading, success, failure }
 
 const pathSeparator = "/";
-const rootFolderName = "root";
+const rootFolderName = "jottings";
 const rootFolderId = "Folder_$rootFolderName";
 
 class BoxStorage {
