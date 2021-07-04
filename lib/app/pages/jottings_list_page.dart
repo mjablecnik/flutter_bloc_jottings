@@ -24,6 +24,7 @@ class JottingsListPage extends StatelessWidget {
       body: JottingsList(controller),
       bottomNavigationBar: BottomNavigationBar(
         unselectedItemColor: Colors.blue,
+        backgroundColor: Colors.grey.shade100,
         onTap: (index) {
           var onSubmit = (item) => controller.addItem(item);
           switch (index) {
@@ -35,7 +36,7 @@ class JottingsListPage extends StatelessWidget {
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.notes_outlined), label: Texts.addNoteItem),
           BottomNavigationBarItem(icon: Icon(Icons.list_alt), label: Texts.addTodoListItem),
-          BottomNavigationBarItem(icon: Icon(Icons.folder), label: Texts.addFolderItem),
+          BottomNavigationBarItem(icon: Icon(Icons.folder_open), label: Texts.addFolderItem),
         ],
       ),
     );
