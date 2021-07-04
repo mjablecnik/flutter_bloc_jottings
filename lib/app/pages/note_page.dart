@@ -15,36 +15,39 @@ class NotePage extends StatelessWidget {
 
   @override
   Widget build(context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(controller.state.note!.name),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.save),
-            onPressed: () {
-              controller.save(controller.state.note);
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text(Texts.saveSnackBar),
-                ),
-              );
-            },
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          QuillToolbar.basic(controller: controller.editor),
-          Expanded(
-            child: Container(
-              child: QuillEditor.basic(
-                controller: controller.editor,
-                readOnly: false,
-              ),
+    return WillPopScope(
+      onWillPop: controller.saveContent,
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text(controller.state.note!.name),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.save),
+              onPressed: () {
+                controller.saveContent();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text(Texts.saveSnackBar),
+                  ),
+                );
+              },
             ),
-          )
-        ],
+          ],
+        ),
+        body: Column(
+          children: [
+            // QuillToolbar.basic(controller: controller.editor),
+            Expanded(
+              child: Container(
+                child: QuillEditor.basic(
+                  controller: controller.editor,
+                  readOnly: false,
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

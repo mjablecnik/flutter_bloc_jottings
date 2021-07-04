@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/painting.dart';
@@ -35,12 +36,16 @@ class NoteController extends Cubit<NoteState> {
   NoteController(this.noteId) : super(NoteState.loading()) {
     if (Item.getTypeFromId(noteId) == ItemType.Note) {
       load();
+      Timer.periodic(Duration(seconds: 5), (timer) {
+        this.saveContent();
+      });
     }
   }
 
-  save(note) {
-    note!.content = jsonEncode(editor.document.toDelta().toJson());
-    note.save();
+  Future<bool> saveContent() {
+    state.note!.content = jsonEncode(editor.document.toDelta().toJson());
+    state.note!.save();
+    return Future.value(true);
   }
 
   load() {
