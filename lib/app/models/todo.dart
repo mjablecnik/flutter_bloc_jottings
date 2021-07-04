@@ -11,6 +11,9 @@ class TodoList extends Item {
   @HiveField(50)
   List<TodoItem> items = [];
 
+  @HiveField(51)
+  bool? isCheckedVisible;
+
   TodoList(name, {String? id, List<String>? dirPath, DateTime? created, DateTime? lastChange})
       : super(name, id: id, dirPath: dirPath, created: created, lastChange: lastChange);
 

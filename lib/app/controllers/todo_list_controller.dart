@@ -30,6 +30,10 @@ class TodoListController extends Cubit<TodoListState> {
     }
   }
 
+  get items => state.todoList!.isCheckedVisible == true
+      ? state.todoList!.items
+      : state.todoList!.items.where((element) => !element.checked).toList();
+
   addTodo(String text) {
     if (text.isNotEmpty) {
       state.todoList!.items = [TodoItem(text, false), ...state.todoList!.items];
@@ -49,6 +53,13 @@ class TodoListController extends Cubit<TodoListState> {
       ...state.todoList!.items.where((element) => !element.checked),
       ...state.todoList!.items.where((element) => element.checked)
     ];
+    state.todoList!.save();
+    emit(TodoListState.success(state.todoList!));
+  }
+
+  toggleCheckedVisibility() {
+    state.todoList!.isCheckedVisible =
+        state.todoList!.isCheckedVisible == null ? true : !state.todoList!.isCheckedVisible!;
     state.todoList!.save();
     emit(TodoListState.success(state.todoList!));
   }

@@ -23,12 +23,17 @@ class TodoListPage extends StatelessWidget {
         centerTitle: true,
         title: Text(controller.state.todoList!.name),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () {
-              print("TODO: Add todo");
+          BlocBuilder<TodoListController, TodoListState>(
+            bloc: controller,
+            builder: (context, state) {
+              return IconButton(
+                icon: controller.state.todoList!.isCheckedVisible == true
+                    ? const Icon(Icons.visibility)
+                    : const Icon(Icons.visibility_off),
+                onPressed: controller.toggleCheckedVisibility,
+              );
             },
-          ),
+          )
         ],
       ),
       body: Column(
@@ -38,7 +43,7 @@ class TodoListPage extends StatelessWidget {
               bloc: controller,
               builder: (context, state) {
                 return ImplicitlyAnimatedReorderableList<todo.TodoItem>(
-                  items: state.todoList!.items,
+                  items: controller.items,
                   areItemsTheSame: (oldItem, newItem) => oldItem.text == newItem.text,
                   onReorderFinished: (item, from, to, newItems) {
                     controller.reorder(from!, to);
