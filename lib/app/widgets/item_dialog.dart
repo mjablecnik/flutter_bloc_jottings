@@ -33,9 +33,17 @@ class ItemDialog extends StatefulWidget {
 }
 
 class _ItemDialogState extends ModularState<ItemDialog, ItemDialogController> {
-
   @override
   Widget build(BuildContext context) {
+    var textController = TextEditingController();
+    textController.value = TextEditingValue(
+      text: widget.model.name,
+      selection: TextSelection(
+        baseOffset: 0,
+        extentOffset: widget.model.name.length,
+      ),
+    );
+
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(14),
@@ -56,8 +64,10 @@ class _ItemDialogState extends ModularState<ItemDialog, ItemDialogController> {
               TextFormField(
                 decoration: InputDecoration(labelText: "Name:"),
                 validator: controller.titleValidator,
-                initialValue: widget.model.name,
+                // initialValue: widget.model.name,
                 onSaved: (value) => widget.model.name = value!,
+                controller: textController,
+                autofocus: true,
               ),
               Container(
                 alignment: Alignment.centerRight,

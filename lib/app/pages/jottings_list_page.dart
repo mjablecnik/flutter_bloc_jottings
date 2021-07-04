@@ -28,9 +28,9 @@ class JottingsListPage extends StatelessWidget {
         onTap: (index) {
           var onSubmit = (item) => controller.addItem(item);
           switch (index) {
-            case 0: ItemDialog.getDialog(context, item: Note(""), title: Texts.addNoteItem, onSubmit: onSubmit); break;
-            case 1: ItemDialog.getDialog(context, item: TodoList(""), title: Texts.addTodoListItem, onSubmit: onSubmit); break;
-            case 2: ItemDialog.getDialog(context, item: Folder(""), title: Texts.addFolderItem, onSubmit: onSubmit); break;
+            case 0: ItemDialog.getDialog(context, item: Note(Texts.defaultItemName), title: Texts.addNoteItem, onSubmit: onSubmit); break;
+            case 1: ItemDialog.getDialog(context, item: TodoList(Texts.defaultItemName), title: Texts.addTodoListItem, onSubmit: onSubmit); break;
+            case 2: ItemDialog.getDialog(context, item: Folder(Texts.defaultItemName), title: Texts.addFolderItem, onSubmit: onSubmit); break;
           }
         },
         items: [

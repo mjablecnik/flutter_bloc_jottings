@@ -16,4 +16,5 @@ class Texts {
   static const addTodoListItem = "Add todo list";
   static const addFolderItem = "Add folder";
   static const saveSnackBar = "Saved";
+  static const defaultItemName = "Undefined";
 }
