@@ -10,7 +10,7 @@ import 'package:jottings/app/models/todo.dart';
 import 'package:jottings/app/models/folder.dart';
 import 'package:jottings/app/models/note.dart';
 import 'package:jottings/app/pages/note_page.dart';
-import 'package:jottings/app/pages/main_page.dart';
+import 'package:jottings/app/pages/jottings_list_page.dart';
 import 'package:hive/hive.dart';
 import 'package:jottings/app/pages/todo_list_page.dart';
 import 'package:path_provider/path_provider.dart';

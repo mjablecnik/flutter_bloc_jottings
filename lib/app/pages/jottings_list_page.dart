@@ -7,7 +7,7 @@ import 'package:jottings/app/models/folder.dart';
 import 'package:jottings/app/models/note.dart';
 import 'package:jottings/app/models/todo.dart';
 import 'package:jottings/app/widgets/item_dialog.dart';
-import 'package:jottings/app/widgets/jottings_list.dart';
+import 'package:jottings/app/components/jottings_list.dart';
 
 class JottingsListPage extends StatelessWidget {
 

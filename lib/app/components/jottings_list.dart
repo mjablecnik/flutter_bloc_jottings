@@ -5,7 +5,7 @@ import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorder
 import 'package:implicitly_animated_reorderable_list/transitions.dart';
 import 'package:jottings/app/controllers/jottings_list_controller.dart';
 import 'package:jottings/app/models/item.dart';
-import 'package:jottings/app/widgets/jottings_item.dart';
+import 'package:jottings/app/components/jottings_item.dart';
 
 class JottingsList extends StatelessWidget {
   final JottingsListController controller;
