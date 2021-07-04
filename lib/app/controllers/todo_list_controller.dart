@@ -50,7 +50,9 @@ class TodoListController extends Cubit<TodoListState> {
   }
 
   reorder(int oldIndex, int newIndex) {
-    // TODO: Not implemented
+    var item = state.todoList!.items.removeAt(oldIndex);
+    state.todoList!.items.insert(newIndex, item);
+    state.todoList!.save();
   }
 
   load() {

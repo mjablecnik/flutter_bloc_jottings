@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
 import 'package:jottings/app/models/todo.dart' as todo;
 
 class TodoItem extends StatelessWidget {
@@ -26,7 +27,10 @@ class TodoItem extends StatelessWidget {
                 style: const TextStyle(fontSize: 16),
               ),
             ),
-            const Icon(Icons.drag_indicator),
+            Handle(
+              delay: const Duration(milliseconds: 100),
+              child: Icon(Icons.drag_indicator),
+            ),
           ],
         ),
       ),
