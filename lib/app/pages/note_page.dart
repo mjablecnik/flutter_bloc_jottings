@@ -37,7 +37,13 @@ class NotePage extends StatelessWidget {
         ),
         body: Column(
           children: [
-            // QuillToolbar.basic(controller: controller.editor),
+            QuillToolbar.basic(
+              controller: controller.editor,
+              showCodeBlock: false,
+              showQuote: false,
+              showLink: false,
+              // multiRowsDisplay: false,
+            ),
             Expanded(
               child: Container(
                 child: QuillEditor.basic(
