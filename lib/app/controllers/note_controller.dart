@@ -36,9 +36,9 @@ class NoteController extends Cubit<NoteState> {
   NoteController(this.noteId) : super(NoteState.loading()) {
     if (Item.getTypeFromId(noteId) == ItemType.Note) {
       load();
-      Timer.periodic(Duration(seconds: 5), (timer) {
-        this.saveContent();
-      });
+      // Timer.periodic(Duration(seconds: 5), (timer) {
+      //   this.saveContent();
+      // });
     }
   }
 
